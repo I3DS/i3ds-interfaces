@@ -20,11 +20,9 @@
 
 Camera-Types DEFINITIONS ::=
 BEGIN
-IMPORTS SampleAttributes FROM SampleAttribute-Types
-PlanarRegion FROM Region-Types
+IMPORTS PlanarRegion FROM Region-Types
 T-UInt8, T-UInt32, T-Boolean FROM TASTE-BasicTypes
-T-Float, T-UInt16 FROM TASTE-ExtendedTypes
-Frame-mode-t, ImageFrame FROM Frame-Types;
+T-Float, T-UInt16 FROM TASTE-ExtendedTypes;
 
 --- Shutter time in microseconds
 ShutterTime ::= T-UInt32
@@ -98,40 +96,5 @@ SEQUENCE
    pattern-enabled         T-Boolean,
    pattern-sequence        PatternSequence
 }
-
---- Camera measurement
-CameraMeasurement{T-UInt32: maxImageBytes} ::=
-SEQUENCE
-{
-   attributes  SampleAttributes,
-   image       ImageFrame{maxImageBytes},
-   frame-mode  Frame-mode-t,
-   data-depth  T-UInt8,
-   pixel-size  T-UInt8,
-   region      PlanarRegion,
-   pattern     PatternID
-}
-
---- Camera measurements for 1 MiB, 4 MiB and 8 MiB images.
-CameraMeasurement1M ::= CameraMeasurement{1048576}
-CameraMeasurement4M ::= CameraMeasurement{4194304}
-CameraMeasurement8M ::= CameraMeasurement{8388608}
-
---- Stereo camera measurement
-StereoCameraMeasurement{T-UInt32: maxImageBytes} ::=
-SEQUENCE
-{
-   attributes   SampleAttributes,
-   image-left   ImageFrame{maxImageBytes},
-   image-right  ImageFrame{maxImageBytes},
-   frame-mode   Frame-mode-t,
-   data-depth   T-UInt8,
-   pixel-size   T-UInt8,
-   region       PlanarRegion
-}
-
---- Stereo camera measurements for 4 MiB and 8 MiB left/right images.
-StereoCameraMeasurement4M ::= StereoCameraMeasurement{4194304}
-StereoCameraMeasurement8M ::= StereoCameraMeasurement{8388608}
 
 END

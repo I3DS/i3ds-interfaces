@@ -20,16 +20,24 @@
 
 IMU-Types DEFINITIONS ::=
 BEGIN
-IMPORTS SampleAttributes FROM SampleAttribute-Types
+IMPORTS BatchSize FROM Sensor-Types
+SampleAttributes FROM SampleAttribute-Types
+T-UInt8, T-UInt32 FROM TASTE-BasicTypes
 Vector3d FROM Eigen-Types;
 
---- IMU measurement definition
-IMUMeasurement ::=
+--- IMU series.
+IMUSamples{T-UInt32: maxSamples} ::= SEQUENCE (SIZE(0..maxSamples)) OF Vector3d
+
+--- IMU measurement definition where number of samples equals batch size
+IMUMeasurement{T-UInt32: maxSamples} ::=
 SEQUENCE
 {
    attributes    SampleAttributes,
-   linear-accel  Vector3d,
-   angular-rate  Vector3d
+   batch-size    BatchSize,
+   linear-accel  IMUSamples{maxSamples},
+   angular-rate  IMUSamples{maxSamples}
 }
+
+IMUMeasurement20 ::= IMUMeasurement{20}
 
 END

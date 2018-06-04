@@ -16,7 +16,7 @@ $I3DS/Analog.asn \
 $I3DS/DepthMap.asn \
 $I3DS/IMU.asn \
 $I3DS/PointCloud.asn \
-$I3DS/SensorSuite.asn \
+$I3DS/Sensor.asn \
 $I3DS/Camera.asn \
 $I3DS/Frame.asn \
 $I3DS/LIDAR.asn \
@@ -24,13 +24,6 @@ $I3DS/Radar.asn \
 $I3DS/Region.asn \
 $I3DS/SampleAttribute.asn \
 $I3DS/StarTracker.asn \
-$I3DS/ToFCamera.asn \
-$SENSORS/Basler-ToFCamera.asn \
-$SENSORS/Basler-HRCamera.asn \
-$SENSORS/Beamagine-LIDAR.asn \
-$SENSORS/Cosine-HRCamera.asn \
-$SENSORS/Cosine-StereoCamera.asn \
-$SENSORS/Cosine-TIRCamera.asn \
-$SENSORS/Hertz-Radar.asn"
+$I3DS/ToFCamera.asn"
 
 taste-update-data-view $FILES

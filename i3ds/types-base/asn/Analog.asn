@@ -20,35 +20,30 @@
 
 Analog-Types DEFINITIONS ::=
 BEGIN
-IMPORTS SampleAttributes FROM SampleAttribute-Types
+IMPORTS BatchSize FROM Sensor-Types
+SampleAttributes FROM SampleAttribute-Types
 T-UInt8, T-UInt32 FROM TASTE-BasicTypes
 T-Float FROM TASTE-ExtendedTypes;
 
---- Analog batch
-AnalogBatch ::=
-SEQUENCE
-{
-   batch-size   T-UInt32
-}
-
---- Analog sensor configuration.
-AnalogConfiguration ::=
-SEQUENCE
-{
-   batch-size   T-UInt32
-}
+--- Series count is a static configuration of the analog sensor.
+SeriesCount ::= T-UInt8
 
 --- Analog series.
 AnalogSamples{T-UInt32: maxSamples} ::= SEQUENCE (SIZE(0..maxSamples)) OF T-Float
 
---- Analog measurement
+--- Analog measurement, where number of samples is series count * batch size
 AnalogMeasurement{T-UInt32: maxSamples} ::=
 SEQUENCE
 {
    attributes   SampleAttributes,
    samples      AnalogSamples{maxSamples},
-   series       T-UInt8,
-   batch-size   T-UInt32
+   series       SeriesCount,
+   batch-size   BatchSize
 }
+
+AnalogMeasurement300 ::= AnalogMeasurement{300}
+AnalogMeasurement1K  ::= AnalogMeasurement{1000}
+AnalogMeasurement3K  ::= AnalogMeasurement{3000}
+AnalogMeasurement10K ::= AnalogMeasurement{10000}
 
 END

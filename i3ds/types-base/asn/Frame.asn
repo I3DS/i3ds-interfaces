@@ -20,7 +20,9 @@
 
 Frame-Types DEFINITIONS ::=
 BEGIN
-IMPORTS T-UInt32 FROM TASTE-BasicTypes
+IMPORTS SampleAttributes FROM SampleAttribute-Types
+PlanarRegion FROM Region-Types
+T-UInt8, T-UInt32 FROM TASTE-BasicTypes
 T-UInt16 FROM TASTE-ExtendedTypes;
 
 --- Legal frame modes adapted from SARGON
@@ -45,5 +47,37 @@ ENUMERATED
 
 --- Image frame is an octet string
 ImageFrame{T-UInt32: maxImageBytes} ::= OCTET STRING (SIZE(0..maxImageBytes))
+
+--- Mono camera frame measurement
+MonoFrame{T-UInt32: maxImageBytes} ::=
+SEQUENCE
+{
+   attributes  SampleAttributes,
+   image       ImageFrame{maxImageBytes},
+   frame-mode  Frame-mode-t,
+   data-depth  T-UInt8,
+   pixel-size  T-UInt8,
+   region      PlanarRegion
+}
+
+--- Stereo camera frame measurement
+StereoFrame{T-UInt32: maxImageBytes} ::=
+SEQUENCE
+{
+   attributes   SampleAttributes,
+   image-left   ImageFrame{maxImageBytes},
+   image-right  ImageFrame{maxImageBytes},
+   frame-mode   Frame-mode-t,
+   data-depth   T-UInt8,
+   pixel-size   T-UInt8,
+   region       PlanarRegion
+}
+
+--- Pre-defined frames of different single image size (in MiB).
+MonoFrame1M ::= MonoFrame{1048576}
+MonoFrame4M ::= MonoFrame{4194304}
+MonoFrame8M ::= MonoFrame{8388608}
+StereoFrame4M ::= StereoFrame{4194304}
+StereoFrame8M ::= StereoFrame{8388608}
 
 END
