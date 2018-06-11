@@ -1,0 +1,75 @@
+--------------------------------------------------------------------------------
+--- ASN.1 message definitions for the I3DS sensor suite.
+---
+--- Copyright (C) 2018      SINTEF AS
+---
+--- This program is free software; you can redistribute it and/or
+--- modify it under the terms of the GNU General Public License
+--- as published by the Free Software Foundation; either version 2
+--- of the License, or (at your option) any later version.
+---
+--- This program is distributed in the hope that it will be useful,
+--- but WITHOUT ANY WARRANTY; without even the implied warranty of
+--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--- GNU General Public License for more details.
+---
+--- You should have received a copy of the GNU General Public License
+--- along with this program;  if not, see <http://www.gnu.org/licenses/>.
+--------------------------------------------------------------------------------
+
+Trigger-Types DEFINITIONS ::=
+BEGIN
+IMPORTS T-Boolean FROM TASTE-BasicTypes;
+
+--- Internal trigger generator.
+TriggerGenerator ::= INTEGER (1 .. 4)
+
+--- External trigger input.
+TriggerInput ::= INTEGER (1 .. 4)
+
+--- Trigger output channels.
+TriggerOutput ::= INTEGER (1 .. 8)
+
+--- Trigger period in microseconds.
+TriggerPeriod ::= INTEGER (0 .. 16777215)
+
+--- Trigger offset in microseconds.
+TriggerOffset ::= INTEGER (0 .. 16777215)
+
+--- Trigger duration in microseconds.
+TriggerDuration ::= INTEGER (0 .. 1023)
+
+--- Trigger mask.
+TriggerMask ::= SEQUENCE (SIZE (8)) OF T-Boolean
+
+--- Sets the given generator and output channels to use it.
+GeneratorSetup ::=
+SEQUENCE
+{
+   generator  TriggerGenerator,
+   period     TriggerPeriod
+}
+
+--- Trigger channel setup with internal source.
+ChannelInternal ::=
+SEQUENCE
+{
+   channel   TriggerOutput,
+   source    TriggerGenerator,
+   offset    TriggerOffset,
+   duration  TriggerDuration
+}
+
+--- Trigger channel setup with external source.
+ChannelExternal ::=
+SEQUENCE
+{
+   channel   TriggerOutput,
+   source    TriggerInput,
+   offset    TriggerOffset,
+   duration  TriggerDuration,
+   bypass    T-Boolean,
+   invert    T-Boolean
+}
+
+END
