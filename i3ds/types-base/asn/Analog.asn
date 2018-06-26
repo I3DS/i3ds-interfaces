@@ -41,9 +41,7 @@ SEQUENCE
    batch-size   BatchSize
 }
 
-AnalogMeasurement300 ::= AnalogMeasurement{300}
-AnalogMeasurement1K  ::= AnalogMeasurement{1000}
-AnalogMeasurement3K  ::= AnalogMeasurement{3000}
-AnalogMeasurement10K ::= AnalogMeasurement{10000}
+--- Analog measurement for 1000 sample points.
+AnalogMeasurement1K ::= AnalogMeasurement{1000}
 
 END

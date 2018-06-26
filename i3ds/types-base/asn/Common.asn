@@ -19,13 +19,16 @@
 
 Common-Types DEFINITIONS ::=
 BEGIN
-IMPORTS T-String FROM TASTE-ExtendedTypes;
+IMPORTS T-String, T-Int64 FROM TASTE-ExtendedTypes;
 
--- The node ID is a 24-bit integer identifying a node in the suite (such as a sensor).
+--- The node ID is a 24-bit integer identifying a node in the suite (such as a sensor).
 NodeID ::= INTEGER(0 .. 16777215)
 
--- The endpoint ID is a 8-bit integer identifying the endpoint within the node.
+--- The endpoint ID is a 8-bit integer identifying the endpoint within the node.
 EndpointID ::= INTEGER(0 .. 255)
+
+--- The timepoint type is a 64-bit count of microseconds since the system-defined epoch.
+Timepoint ::= T-Int64
 
 --- Command result codes.
 ResultCode ::=

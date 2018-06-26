@@ -23,14 +23,14 @@ BEGIN
 IMPORTS T-UInt32 FROM TASTE-BasicTypes
 T-UInt16, T-Float FROM TASTE-ExtendedTypes;
 
---- Depth measurement validity adapted from SARGON.
+--- Depth measurement validity.
 Depth-validity-t ::=
 ENUMERATED
 {
-   valid-measurement,
-   too-far,
-   too-near,
-   measurement-error
+   depth-valid,
+   depth-range-error,
+   depth-range-error-far,
+   depth-range-error-near
 }
 
 --- List of depth measurement validities.

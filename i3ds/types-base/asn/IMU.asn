@@ -23,19 +23,30 @@ BEGIN
 IMPORTS BatchSize FROM Sensor-Types
 SampleAttributes FROM SampleAttribute-Types
 T-UInt8, T-UInt32 FROM TASTE-BasicTypes
-Vector3d FROM Eigen-Types;
+T-Double FROM TASTE-ExtendedTypes;
+
+--- IMU sample with 6-DOF
+IMUSample ::=
+SEQUENCE
+{
+   axis-x-rate          T-Double,
+   axis-x-acceleration  T-Double,
+   axis-y-rate          T-Double,
+   axis-y-acceleration  T-Double,
+   axis-z-rate          T-Double,
+   axis-z-acceleration  T-Double
+}
 
 --- IMU series.
-IMUSamples{T-UInt32: maxSamples} ::= SEQUENCE (SIZE(0..maxSamples)) OF Vector3d
+IMUSamples{T-UInt32: maxSamples} ::= SEQUENCE (SIZE(0..maxSamples)) OF IMUSample
 
 --- IMU measurement definition where number of samples equals batch size
 IMUMeasurement{T-UInt32: maxSamples} ::=
 SEQUENCE
 {
    attributes    SampleAttributes,
-   batch-size    BatchSize,
-   linear-accel  IMUSamples{maxSamples},
-   angular-rate  IMUSamples{maxSamples}
+   samples       IMUSamples{maxSamples},
+   batch-size    BatchSize
 }
 
 IMUMeasurement20 ::= IMUMeasurement{20}

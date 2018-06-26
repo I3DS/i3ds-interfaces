@@ -51,9 +51,7 @@ SEQUENCE
    region      PlanarRegion
 }
 
---- Radar measurements for 100K, 200K, 400K sample points.
-RadarMeasurement100K ::= RadarMeasurement{100000}
-RadarMeasurement200K ::= RadarMeasurement{200000}
+--- Radar measurements for 400K sample points.
 RadarMeasurement400K ::= RadarMeasurement{400000}
 
 END

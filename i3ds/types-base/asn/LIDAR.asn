@@ -50,9 +50,7 @@ SEQUENCE
    region       PolarRegion
 }
 
---- LIDAR measurements for 100K, 200K, 400K sample points.
-LIDARMeasurement100K ::= LIDARMeasurement{100000}
+--- LIDAR measurement for 200K sample points.
 LIDARMeasurement200K ::= LIDARMeasurement{200000}
-LIDARMeasurement400K ::= LIDARMeasurement{400000}
 
 END

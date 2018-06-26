@@ -23,14 +23,23 @@ BEGIN
 IMPORTS SampleAttributes FROM SampleAttribute-Types
 PlanarRegion FROM Region-Types
 DepthValidityList, DepthMap FROM DepthMap-Types
-T-UInt32, T-Boolean FROM TASTE-BasicTypes;
+T-UInt32, T-Boolean FROM TASTE-BasicTypes
+T-Float FROM TASTE-ExtendedTypes;
 
 --- ToF region command
 ToFRegion ::=
 SEQUENCE
 {
-    enable   T-Boolean,
-    region   PlanarRegion
+   enable   T-Boolean,
+   region   PlanarRegion
+}
+
+--- ToF range command
+ToFRange ::=
+SEQUENCE
+{
+   min-depth   T-Float,
+   max-depth   T-Float
 }
 
 --- ToF configuration
@@ -38,7 +47,9 @@ ToFConfiguration ::=
 SEQUENCE
 {
    region-enabled   T-Boolean,
-   region           PlanarRegion
+   region           PlanarRegion,
+   min-depth        T-Float,
+   max-depth        T-Float
 }
 
 --- ToF measurement
@@ -51,10 +62,7 @@ SEQUENCE
    region       PlanarRegion
 }
 
---- ToF measurements for 250K, 500K, 1M, 2M sample points.
-ToFMeasurement250K ::= ToFMeasurement{250000}
-ToFMeasurement500K ::= ToFMeasurement{500000}
-ToFMeasurement1M ::= ToFMeasurement{1000000}
-ToFMeasurement2M ::= ToFMeasurement{2000000}
+--- ToF measurements for 400K sample points.
+ToFMeasurement400K ::= ToFMeasurement{400000}
 
 END

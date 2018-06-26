@@ -22,7 +22,7 @@ SampleAttribute-Types DEFINITIONS ::=
 BEGIN
 IMPORTS T-UInt8, T-Boolean FROM TASTE-BasicTypes
 T-Int64, T-Double, T-String FROM TASTE-ExtendedTypes
-Time FROM Time-Types;
+Timepoint FROM Common-Types;
 
 --- Sample validity
 SampleValidity ::=
@@ -34,7 +34,7 @@ ENUMERATED
 }
 
 --- Short string for attributes
-T-String16 ::= OCTET STRING (SIZE(0..16))
+T-String8 ::= OCTET STRING (SIZE(0..8))
 
 --- Sample attribute value
 Attribute-value-t ::=
@@ -43,7 +43,7 @@ CHOICE
    boolean-value    T-Boolean,
    discrete-value   T-Int64,
    real-value       T-Double,
-   string-value     T-String16
+   string-value     T-String8
 }
 
 --- Sample attribute name/value pair
@@ -58,9 +58,9 @@ SEQUENCE
 SampleAttributes ::=
 SEQUENCE
 {
-   timestamp   Time,
+   timestamp   Timepoint,
    validity    SampleValidity,
-   attributes  SEQUENCE (SIZE(0..5)) OF Sample-attribute-t
+   attributes  SEQUENCE (SIZE(0..4)) OF Sample-attribute-t
 }
 
 END

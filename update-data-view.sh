@@ -11,7 +11,7 @@ $ESROCOS/Point.asn \
 $ESROCOS/taste-extended.asn \
 $ESROCOS/taste-types.asn \
 $ESROCOS/Temperature.asn \
-$ESROCOS/Time.asn
+$I3DS/Common.asn \
 $I3DS/Analog.asn \
 $I3DS/DepthMap.asn \
 $I3DS/IMU.asn \
