@@ -57,7 +57,8 @@ SEQUENCE
    channel   TriggerOutput,
    source    TriggerGenerator,
    offset    TriggerOffset,
-   duration  TriggerDuration
+   duration  TriggerDuration,
+   invert    T-Boolean
 }
 
 --- Trigger channel setup with external source.
