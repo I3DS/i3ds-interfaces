@@ -1,12 +1,16 @@
 #! /bin/dash
 
-ROOT=$(pwd)
+if [ -z "$ASN1CC" ]; then
+    ASN1CC=$(find $HOME -executable -name asn1.exe | head -n 1)
+fi
+
+ROOT=$(dirname $0)
 
 ESROCOS_BASE_DIR="$ROOT/esrocos/types-base/asn"
 I3DS_BASE_DIR="$ROOT/i3ds/types-base/asn"
 I3DS_EXTRA_DIR="$ROOT/i3ds/types-extra/asn"
 
-export I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/Eigen.asn \
+I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/Eigen.asn \
     $ESROCOS_BASE_DIR/Point.asn \
     $ESROCOS_BASE_DIR/taste-extended.asn \
     $ESROCOS_BASE_DIR/taste-types.asn \
@@ -28,6 +32,6 @@ export I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/Eigen.asn \
     $I3DS_BASE_DIR/ToFCamera.asn \
     $I3DS_EXTRA_DIR/Trigger.asn"
 
-if [ $(command -v taste-update-data-view) ]; then
-    taste-update-data-view $I3DS_ASN1_FILES
+if [ $(command -v $ASN1CC) ]; then
+    $ASN1CC $@ $I3DS_ASN1_FILES
 fi
