@@ -2,7 +2,7 @@
 --- ASN.1 message definitions for the I3DS sensor suite.
 ---
 --- Copyright (C) 2017      Stiftelsen SINTEF
---- Copyright (C) 2018      SINTEF AS
+--- Copyright (C) 2018-2019 SINTEF AS
 ---
 --- This program is free software; you can redistribute it and/or
 --- modify it under the terms of the GNU General Public License
@@ -20,10 +20,27 @@
 
 PointCloud-Types DEFINITIONS ::=
 BEGIN
-IMPORTS T-UInt32 FROM TASTE-BasicTypes
-Point FROM Point-Types;
+IMPORTS SampleAttributes FROM SampleAttribute-Types
+PlanarRegion FROM Region-Types
+T-UInt32 FROM TASTE-BasicTypes
+T-UInt16 FROM TASTE-ExtendedTypes;
 
---- Point-cloud in meters relative to sensor right-hand XYZ
-PointCloud{T-UInt32: maxPointCloudSize} ::= SEQUENCE (SIZE(1..maxPointCloudSize)) OF Point
+--- Point fields format adapted from PCD.
+Point-format-t ::=
+ENUMERATED
+{
+   fields-xyz-f   -- Point XYZ as floating-point in meter
+}
+
+--- Point-cloud descriptor as simplified version of PCD.
+PointCloudDescriptor ::=
+SEQUENCE
+{
+   attributes     SampleAttributes,  -- Sample attributes.
+   point-format   Point-format-t,    -- Point field format, currently only XYZ as float.
+   point-size     T-UInt16,          -- Point size in bytes including alignment padding.
+   width          T-UInt32,          -- Width of point-cloud.
+   height         T-UInt32           -- Height of point-cloud, 1 when unorganized.
+}
 
 END

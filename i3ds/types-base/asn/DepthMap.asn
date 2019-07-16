@@ -2,7 +2,7 @@
 --- ASN.1 message definitions for the I3DS sensor suite.
 ---
 --- Copyright (C) 2017      Stiftelsen SINTEF
---- Copyright (C) 2018      SINTEF AS
+--- Copyright (C) 2018-2019 SINTEF AS
 ---
 --- This program is free software; you can redistribute it and/or
 --- modify it under the terms of the GNU General Public License
@@ -20,23 +20,27 @@
 
 DepthMap-Types DEFINITIONS ::=
 BEGIN
-IMPORTS T-UInt32 FROM TASTE-BasicTypes
-T-UInt16, T-Float FROM TASTE-ExtendedTypes;
+IMPORTS SampleAttributes FROM SampleAttribute-Types
+PlanarRegion FROM Region-Types
+T-UInt8 FROM TASTE-BasicTypes
+T-Float, T-UInt16 FROM TASTE-ExtendedTypes;
 
---- Depth measurement validity.
-Depth-validity-t ::=
+--- Depth format.
+Depth-format-t ::=
 ENUMERATED
 {
-   depth-valid,
-   depth-range-error,
-   depth-range-error-far,
-   depth-range-error-near
+   depth-f -- Depth as floating-point meter, NaN is invalid
 }
 
---- List of depth measurement validities.
-DepthValidityList{T-UInt32: maxSize} ::= SEQUENCE (SIZE(1..maxSize)) OF Depth-validity-t
-
---- Depth map with distances in meters relative to sensor.
-DepthMap{T-UInt32: maxSize} ::= SEQUENCE (SIZE(1..maxSize)) OF T-Float
+--- Depth-map descriptor as simplified version of PCD.
+DepthMapDescriptor ::=
+SEQUENCE
+{
+   attributes    SampleAttributes,  -- Sample attributes.
+   depth-format  Depth-format-t,    -- Depth format, currently only floating-point
+   depth-size    T-UInt8,           -- Depth size in bytes, currently 4
+   width         T-UInt16,          -- Width of depth-map.
+   height        T-UInt16           -- Height of depth-map.
+}
 
 END

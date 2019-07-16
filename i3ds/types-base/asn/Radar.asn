@@ -2,7 +2,7 @@
 --- ASN.1 message definitions for the I3DS sensor suite.
 ---
 --- Copyright (C) 2017      Stiftelsen SINTEF
---- Copyright (C) 2018      SINTEF AS
+--- Copyright (C) 2018-2019 SINTEF AS
 ---
 --- This program is free software; you can redistribute it and/or
 --- modify it under the terms of the GNU General Public License
@@ -20,10 +20,8 @@
 
 Radar-Types DEFINITIONS ::=
 BEGIN
-IMPORTS SampleAttributes FROM SampleAttribute-Types
-PlanarRegion FROM Region-Types
-T-UInt32, T-Boolean FROM TASTE-BasicTypes
-DepthMap, DepthValidityList FROM DepthMap-Types;
+IMPORTS PlanarRegion FROM Region-Types
+T-Boolean FROM TASTE-BasicTypes;
 
 --- Radar region command.
 RadarRegion ::=
@@ -40,18 +38,5 @@ SEQUENCE
    region-enabled   T-Boolean,
    region           PlanarRegion
 }
-
---- Radar measurement.
-RadarMeasurement{T-UInt32: maxDepthMapSize} ::=
-SEQUENCE
-{
-   attributes  SampleAttributes,
-   distances   DepthMap{maxDepthMapSize},
-   validity    DepthValidityList{maxDepthMapSize},
-   region      PlanarRegion
-}
-
---- Radar measurements for 400K sample points.
-RadarMeasurement400K ::= RadarMeasurement{400000}
 
 END
