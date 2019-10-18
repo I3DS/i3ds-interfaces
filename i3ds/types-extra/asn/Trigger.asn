@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 --- ASN.1 message definitions for the I3DS sensor suite.
 ---
---- Copyright (C) 2018      SINTEF AS
+--- Copyright (C) 2018-2019 SINTEF AS
 ---
 --- This program is free software; you can redistribute it and/or
 --- modify it under the terms of the GNU General Public License
@@ -42,35 +42,35 @@ TriggerDuration ::= INTEGER (0 .. 1023)
 --- Trigger mask.
 TriggerMask ::= SEQUENCE (SIZE (8)) OF T-Boolean
 
---- Sets the given generator and output channels to use it.
+--- Sets the given generator source to a period.
 GeneratorSetup ::=
 SEQUENCE
 {
-   generator  TriggerGenerator,
-   period     TriggerPeriod
+   source    TriggerGenerator,
+   period    TriggerPeriod
 }
 
 --- Trigger channel setup with internal source.
 ChannelInternal ::=
 SEQUENCE
 {
-   channel   TriggerOutput,
-   source    TriggerGenerator,
-   offset    TriggerOffset,
-   duration  TriggerDuration,
-   invert    T-Boolean
+   output-channel  TriggerOutput,
+   source          TriggerGenerator,
+   offset          TriggerOffset,
+   duration        TriggerDuration,
+   invert          T-Boolean
 }
 
 --- Trigger channel setup with external source.
 ChannelExternal ::=
 SEQUENCE
 {
-   channel   TriggerOutput,
-   source    TriggerInput,
-   offset    TriggerOffset,
-   duration  TriggerDuration,
-   bypass    T-Boolean,
-   invert    T-Boolean
+   output-channel   TriggerOutput,
+   source           TriggerInput,
+   offset           TriggerOffset,
+   duration         TriggerDuration,
+   bypass           T-Boolean,
+   invert           T-Boolean
 }
 
 END

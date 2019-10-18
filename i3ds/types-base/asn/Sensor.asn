@@ -2,7 +2,7 @@
 --- ASN.1 message definitions for the I3DS sensor suite.
 ---
 --- Copyright (C) 2017      Stiftelsen SINTEF
---- Copyright (C) 2018      SINTEF AS
+--- Copyright (C) 2018-2019 SINTEF AS
 ---
 --- This program is free software; you can redistribute it and/or
 --- modify it under the terms of the GNU General Public License
@@ -46,8 +46,8 @@ StateCommand ::= ENUMERATED {activate, start, stop, deactivate}
 SensorStatus ::=
 SEQUENCE
 {
-   state        SensorState,
-   temperature  Temperature
+   current-state SensorState,
+   temperature   Temperature
 }
 
 -- Sample period given as microseconds between sample messages, 0 is aperiodic.
@@ -72,7 +72,7 @@ SEQUENCE
 SensorConfiguration ::=
 SEQUENCE
 {
-   device        T-String,      -- String identifying the sensor device.
+   device-name   T-String,      -- String identifying the sensor device.
    period        SamplePeriod,  -- Period of batch samples when operational.
    batch-size    BatchSize,     -- Number of samples in each batch.
    batch-count   BatchCount     -- Number of batches to acquire when operational.
