@@ -46,8 +46,8 @@ StateCommand ::= ENUMERATED {activate, start, stop, deactivate}
 SensorStatus ::=
 SEQUENCE
 {
-   current-state SensorState,
-   temperature   Temperature
+   current-state        SensorState,
+   device-temperature   Temperature
 }
 
 -- Sample period given as microseconds between sample messages, 0 is aperiodic.
