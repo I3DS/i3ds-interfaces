@@ -23,6 +23,7 @@ I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/base.asn \
     $I3DS_BASE_DIR/Camera.asn \
     $I3DS_BASE_DIR/Frame.asn \
     $I3DS_BASE_DIR/LIDAR.asn \
+    $I3DS_BASE_DIR/PoseEstimator.asn \
     $I3DS_BASE_DIR/Radar.asn \
     $I3DS_BASE_DIR/Region.asn \
     $I3DS_BASE_DIR/SampleAttribute.asn \
