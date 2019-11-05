@@ -14,14 +14,21 @@ T-Int16 ::= INTEGER (-32768..32767 )
 
 T-UInt16 ::= INTEGER (0 .. 65535 )
 
-T-UInt64 ::= INTEGER (0..9223372036854775807)
+T-UInt64 ::= INTEGER (0..18446744073709551615)
 
-T-Int64 ::= INTEGER (-9223372036854775807.. 9223372036854775807)
+T-Int64 ::= INTEGER (-9223372036854775808.. 9223372036854775807)
 
--- Maximum string size
-maxSize-T-String T-UInt32 ::= 256
+T-String ::= T-StringP{numT-String}
 
-T-String ::= OCTET STRING (SIZE(0..maxSize-T-String))
+T-StringP{T-UInt32: maxT-String} ::= OCTET STRING (SIZE(0..maxT-String))
 
+numT-String T-UInt32::= 40
+
+T-Time ::= SEQUENCE
+{
+    secs  T-UInt32,
+    nsecs T-UInt32
+}
+  
 END
 

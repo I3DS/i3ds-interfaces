@@ -21,14 +21,14 @@
 StarTracker-Types DEFINITIONS ::=
 BEGIN
 IMPORTS SampleAttributes FROM SampleAttribute-Types
-Quaterniond FROM Eigen-Types;
+Wrappers-Quaterniond FROM Base-Types;
 
 --- Star tracker mesurement.
 StarTrackerMeasurement ::=
 SEQUENCE
 {
    attributes   SampleAttributes,
-   position     Quaterniond
+   position     Wrappers-Quaterniond
 }
 
 END

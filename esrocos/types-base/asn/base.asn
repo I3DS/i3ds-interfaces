@@ -1,0 +1,1019 @@
+Base-Types DEFINITIONS ::=
+BEGIN
+
+IMPORTS T-UInt32, T-Boolean, T-Int32 FROM TASTE-BasicTypes T-Double, T-Float, T-Int64, T-UInt16, T-String FROM TASTE-ExtendedTypes DummyBase-T, numBase-JointTrajectory, numStd-orogen-typekits-mtype-std-vector-base-JointTransform, numStd-orogen-typekits-mtype-std-vector-base-Waypoint, numStd-orogen-typekits-mtype-std-vector-base-Wrench, numStd-vector-Wrappers-Vector4d, numStd-orogen-typekits-mtype-std-vector-base-Trajectory, numBase-JointLimits-names, numBase-JointLimits-elements, numBase-JointsTrajectory-names, numBase-JointsTrajectory-elements, numBase-JointsTrajectory-times-val, numBase-NamedVector-Base-JointLimitRange-names, numBase-NamedVector-Base-JointLimitRange-elements, numBase-NamedVector-Base-JointState-names, numBase-NamedVector-Base-Wrench-names, numBase-NamedVector-Base-Wrench-elements, numBase-NamedVector-Base-JointTrajectory-names, numBase-NamedVector-Base-JointTrajectory-elements, numBase-samples-DepthMap-timestamps, numBase-samples-DepthMap-vertical-interval, numBase-samples-DepthMap-horizontal-interval, numBase-samples-DepthMap-distances, numBase-samples-DepthMap-remissions, numBase-samples-DistanceImage-data, numBase-commands-Joints-names, numBase-samples-LaserScan-ranges, numBase-samples-LaserScan-remission, numBase-samples-Pointcloud-points, numBase-samples-Pointcloud-colors, numBase-samples-Sonar-timestamps, numBase-samples-Sonar-bearings, numBase-samples-Sonar-bins, numBase-samples-SonarBeam-beam, numBase-samples-SonarScan-data, numBase-samples-SonarScan-time-beams, numBase-samples-Wrenches-names, numBase-samples-Wrenches-elements, numBase-JointTransformVector-names, numBase-JointTransformVector-elements, numBase-NamedVector-Base-JointTransform-names, numBase-NamedVector-Base-JointTransform-elements, numBase-samples-frame-Frame-image, numBase-samples-frame-Frame-attributes, numWrappers-MatrixXd-data, numWrappers-VectorXd-data, numBase-JointTransformVector-m-names, numBase-NamedVector-base-JointTransform-m-names, numBase-NamedVector-base-Wrench-m-names, numBase-samples-Pointcloud-m-points, numBase-samples-Pointcloud-m-colors, numBase-samples-Wrenches-m-names, numWrappers-geometry-Spline-knots, numWrappers-geometry-Spline-vertices FROM UserDefs-Base-Types;
+
+--Definition Dummy2Base-T starts
+    Dummy2Base-T ::= DummyBase-T
+-- Definition Dummy2Base-T ends
+
+--Definition Base-JointState-MODE starts
+Base-JointState-MODE ::= ENUMERATED
+{
+    base-jointstate-mode-acceleration,
+    base-jointstate-mode-effort,
+    base-jointstate-mode-position,
+    base-jointstate-mode-raw,
+    base-jointstate-mode-speed,
+    base-jointstate-mode-unset
+}
+-- Definition Base-JointState-MODE ends
+
+--Definition Base-Time-Resolution starts
+Base-Time-Resolution ::= ENUMERATED
+{
+    base-time-resolution-microseconds,
+    base-time-resolution-milliseconds,
+    base-time-resolution-seconds
+}
+-- Definition Base-Time-Resolution ends
+
+--Definition Base-geometry-SplineBase-CoordinateType starts
+Base-geometry-SplineBase-CoordinateType ::= ENUMERATED
+{
+    base-geometry-splinebase-coordinatetype-derivative-to-next,
+    base-geometry-splinebase-coordinatetype-derivative-to-prior,
+    base-geometry-splinebase-coordinatetype-knuckle-point,
+    base-geometry-splinebase-coordinatetype-ordinary-point,
+    base-geometry-splinebase-coordinatetype-second-derivative-to-next,
+    base-geometry-splinebase-coordinatetype-second-derivative-to-prior,
+    base-geometry-splinebase-coordinatetype-tangent-point-for-next,
+    base-geometry-splinebase-coordinatetype-tangent-point-for-prior
+}
+-- Definition Base-geometry-SplineBase-CoordinateType ends
+
+--Definition Base-samples-DepthMap-DEPTH-MEASUREMENT-STATE starts
+Base-samples-DepthMap-DEPTH-MEASUREMENT-STATE ::= ENUMERATED
+{
+    base-samples-depthmap-depth-measurement-state-measurement-error,
+    base-samples-depthmap-depth-measurement-state-too-far,
+    base-samples-depthmap-depth-measurement-state-too-near,
+    base-samples-depthmap-depth-measurement-state-valid-measurement
+}
+-- Definition Base-samples-DepthMap-DEPTH-MEASUREMENT-STATE ends
+
+--Definition Base-samples-DepthMap-PROJECTION-TYPE starts
+Base-samples-DepthMap-PROJECTION-TYPE ::= ENUMERATED
+{
+    base-samples-depthmap-projection-type-planar,
+    base-samples-depthmap-projection-type-polar
+}
+-- Definition Base-samples-DepthMap-PROJECTION-TYPE ends
+
+--Definition Base-samples-DepthMap-UNIT-AXIS starts
+Base-samples-DepthMap-UNIT-AXIS ::= ENUMERATED
+{
+    base-samples-depthmap-unit-axis-unit-x,
+    base-samples-depthmap-unit-axis-unit-y,
+    base-samples-depthmap-unit-axis-unit-z
+}
+-- Definition Base-samples-DepthMap-UNIT-AXIS ends
+
+--Definition Base-samples-LASER-RANGE-ERRORS starts
+Base-samples-LASER-RANGE-ERRORS ::= ENUMERATED
+{
+    base-samples-laser-range-errors-end-laser-range-errors,
+    base-samples-laser-range-errors-max-range-error,
+    base-samples-laser-range-errors-measurement-error,
+    base-samples-laser-range-errors-other-range-errors,
+    base-samples-laser-range-errors-too-far,
+    base-samples-laser-range-errors-too-near
+}
+-- Definition Base-samples-LASER-RANGE-ERRORS ends
+
+--Definition Base-samples-frame-frame-mode-t starts
+Base-samples-frame-frame-mode-t ::= ENUMERATED
+{
+    base-samples-frame-frame-mode-t-compressed-modes,
+    base-samples-frame-frame-mode-t-mode-bayer,
+    base-samples-frame-frame-mode-t-mode-bayer-bggr,
+    base-samples-frame-frame-mode-t-mode-bayer-gbrg,
+    base-samples-frame-frame-mode-t-mode-bayer-grbg,
+    base-samples-frame-frame-mode-t-mode-bayer-rggb,
+    base-samples-frame-frame-mode-t-mode-bgr,
+    base-samples-frame-frame-mode-t-mode-grayscale,
+    base-samples-frame-frame-mode-t-mode-jpeg,
+    base-samples-frame-frame-mode-t-mode-pjpg,
+    base-samples-frame-frame-mode-t-mode-png,
+    base-samples-frame-frame-mode-t-mode-rgb,
+    base-samples-frame-frame-mode-t-mode-rgb32,
+    base-samples-frame-frame-mode-t-mode-undefined,
+    base-samples-frame-frame-mode-t-mode-uyvy,
+    base-samples-frame-frame-mode-t-raw-modes
+}
+-- Definition Base-samples-frame-frame-mode-t ends
+
+--Definition Base-samples-frame-frame-status-t starts
+Base-samples-frame-frame-status-t ::= ENUMERATED
+{
+    base-samples-frame-frame-status-t-status-empty,
+    base-samples-frame-frame-status-t-status-invalid,
+    base-samples-frame-frame-status-t-status-valid
+}
+-- Definition Base-samples-frame-frame-status-t ends
+
+--Definition Wrappers-geometry-SplineType starts
+Wrappers-geometry-SplineType ::= ENUMERATED
+{
+    wrappers-geometry-splinetype-degenerate,
+    wrappers-geometry-splinetype-polynomial-bezier,
+    wrappers-geometry-splinetype-polynomial-bspline,
+    wrappers-geometry-splinetype-rational-bezier,
+    wrappers-geometry-splinetype-rational-bspline
+}
+-- Definition Wrappers-geometry-SplineType ends
+
+--Definition Base-JointTrajectoryP starts
+Base-JointTrajectoryP {T-UInt32: maxBase-JointTrajectory} ::= SEQUENCE(SIZE(1..maxBase-JointTrajectory)) OF Base-JointState
+-- Definition Base-JointTrajectoryP ends
+
+--Definition Base-JointTrajectory starts
+Base-JointTrajectory ::= Base-JointTrajectoryP{numBase-JointTrajectory}
+-- Definition Base-JointTrajectory ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-JointTransformP starts
+Std-orogen-typekits-mtype-std-vector-base-JointTransformP {T-UInt32: maxStd-orogen-typekits-mtype-std-vector-base-JointTransform} ::= SEQUENCE(SIZE(1..maxStd-orogen-typekits-mtype-std-vector-base-JointTransform)) OF Base-JointTransform-m
+-- Definition Std-orogen-typekits-mtype-std-vector-base-JointTransformP ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-JointTransform starts
+Std-orogen-typekits-mtype-std-vector-base-JointTransform ::= Std-orogen-typekits-mtype-std-vector-base-JointTransformP{numStd-orogen-typekits-mtype-std-vector-base-JointTransform}
+-- Definition Std-orogen-typekits-mtype-std-vector-base-JointTransform ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-WaypointP starts
+Std-orogen-typekits-mtype-std-vector-base-WaypointP {T-UInt32: maxStd-orogen-typekits-mtype-std-vector-base-Waypoint} ::= SEQUENCE(SIZE(1..maxStd-orogen-typekits-mtype-std-vector-base-Waypoint)) OF Base-Waypoint-m
+-- Definition Std-orogen-typekits-mtype-std-vector-base-WaypointP ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-Waypoint starts
+Std-orogen-typekits-mtype-std-vector-base-Waypoint ::= Std-orogen-typekits-mtype-std-vector-base-WaypointP{numStd-orogen-typekits-mtype-std-vector-base-Waypoint}
+-- Definition Std-orogen-typekits-mtype-std-vector-base-Waypoint ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-WrenchP starts
+Std-orogen-typekits-mtype-std-vector-base-WrenchP {T-UInt32: maxStd-orogen-typekits-mtype-std-vector-base-Wrench} ::= SEQUENCE(SIZE(1..maxStd-orogen-typekits-mtype-std-vector-base-Wrench)) OF Base-Wrench-m
+-- Definition Std-orogen-typekits-mtype-std-vector-base-WrenchP ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-Wrench starts
+Std-orogen-typekits-mtype-std-vector-base-Wrench ::= Std-orogen-typekits-mtype-std-vector-base-WrenchP{numStd-orogen-typekits-mtype-std-vector-base-Wrench}
+-- Definition Std-orogen-typekits-mtype-std-vector-base-Wrench ends
+
+--Definition Std-vector-Wrappers-Vector4dP starts
+Std-vector-Wrappers-Vector4dP {T-UInt32: maxStd-vector-Wrappers-Vector4d} ::= SEQUENCE(SIZE(1..maxStd-vector-Wrappers-Vector4d)) OF Wrappers-Vector4d
+-- Definition Std-vector-Wrappers-Vector4dP ends
+
+--Definition Std-vector-Wrappers-Vector4d starts
+Std-vector-Wrappers-Vector4d ::= Std-vector-Wrappers-Vector4dP{numStd-vector-Wrappers-Vector4d}
+-- Definition Std-vector-Wrappers-Vector4d ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-TrajectoryP starts
+Std-orogen-typekits-mtype-std-vector-base-TrajectoryP {T-UInt32: maxStd-orogen-typekits-mtype-std-vector-base-Trajectory} ::= SEQUENCE(SIZE(1..maxStd-orogen-typekits-mtype-std-vector-base-Trajectory)) OF Base-Trajectory-m
+-- Definition Std-orogen-typekits-mtype-std-vector-base-TrajectoryP ends
+
+--Definition Std-orogen-typekits-mtype-std-vector-base-Trajectory starts
+Std-orogen-typekits-mtype-std-vector-base-Trajectory ::= Std-orogen-typekits-mtype-std-vector-base-TrajectoryP{numStd-orogen-typekits-mtype-std-vector-base-Trajectory}
+-- Definition Std-orogen-typekits-mtype-std-vector-base-Trajectory ends
+
+--Definition Base-Pose starts
+Base-Pose ::= SEQUENCE
+{
+    position  Wrappers-Vector3d,
+    orientation  Wrappers-Quaterniond
+}
+-- Definition Base-Pose ends
+
+--Definition Base-TransformWithCovariance starts
+Base-TransformWithCovariance ::= SEQUENCE
+{
+    translation  Wrappers-Vector3d,
+    orientation  Wrappers-Quaterniond,
+    cov  Wrappers-Matrix6d
+}
+-- Definition Base-TransformWithCovariance ends
+
+--Definition Base-TwistWithCovariance starts
+Base-TwistWithCovariance ::= SEQUENCE
+{
+    vel  Wrappers-Vector3d,
+    rot  Wrappers-Vector3d,
+    cov  Wrappers-Matrix6d
+}
+-- Definition Base-TwistWithCovariance ends
+
+--Definition Base-Wrench starts
+Base-Wrench ::= SEQUENCE
+{
+    force  Wrappers-Vector3d,
+    torque  Wrappers-Vector3d
+}
+-- Definition Base-Wrench ends
+
+--Definition Base-Angle starts
+Base-Angle ::= SEQUENCE
+{
+    rad  T-Double
+}
+-- Definition Base-Angle ends
+
+--Definition Base-JointState starts
+Base-JointState ::= SEQUENCE
+{
+    position  T-Double,
+    speed  T-Float,
+    effort  T-Float,
+    raw  T-Float,
+    acceleration  T-Float
+}
+-- Definition Base-JointState ends
+
+--Definition Base-Pose2D starts
+Base-Pose2D ::= SEQUENCE
+{
+    position  Wrappers-Vector2d,
+    orientation  T-Double
+}
+-- Definition Base-Pose2D ends
+
+--Definition Base-PoseUpdateThreshold starts
+Base-PoseUpdateThreshold ::= SEQUENCE
+{
+    distance  T-Double,
+    angle  T-Double
+}
+-- Definition Base-PoseUpdateThreshold ends
+
+--Definition Base-Pressure starts
+Base-Pressure ::= SEQUENCE
+{
+    pascal  T-Float
+}
+-- Definition Base-Pressure ends
+
+--Definition Base-Temperature starts
+Base-Temperature ::= SEQUENCE
+{
+    kelvin  T-Double
+}
+-- Definition Base-Temperature ends
+
+--Definition Base-Time starts
+Base-Time ::= SEQUENCE
+{
+    microseconds  T-Int64
+}
+-- Definition Base-Time ends
+
+--Definition Base-Trajectory starts
+Base-Trajectory ::= SEQUENCE
+{
+    speed  T-Double,
+    spline  Wrappers-geometry-Spline
+}
+-- Definition Base-Trajectory ends
+
+--Definition Base-Waypoint starts
+Base-Waypoint ::= SEQUENCE
+{
+    position  Wrappers-Vector3d,
+    heading  T-Double,
+    tol-position  T-Double,
+    tol-heading  T-Double
+}
+-- Definition Base-Waypoint ends
+
+--Definition Base-JointLimitRange starts
+Base-JointLimitRange ::= SEQUENCE
+{
+    min  Base-JointState,
+    max  Base-JointState
+}
+-- Definition Base-JointLimitRange ends
+
+--Definition Base-TimeStamped-Base-commands-Motion2D starts
+Base-TimeStamped-Base-commands-Motion2D ::= SEQUENCE
+{
+    translation  T-Double,
+    rotation  T-Double,
+    heading  Base-Angle,
+    time  Base-Time
+}
+-- Definition Base-TimeStamped-Base-commands-Motion2D ends
+
+--Definition Base-LinearAngular6DCommand starts
+Base-LinearAngular6DCommand ::= SEQUENCE
+{
+    time  Base-Time,
+    linear  Wrappers-Vector3d,
+    angular  Wrappers-Vector3d
+}
+-- Definition Base-LinearAngular6DCommand ends
+
+--Definition Base-commands-Motion2D starts
+Base-commands-Motion2D ::= SEQUENCE
+{
+    translation  T-Double,
+    rotation  T-Double,
+    heading  Base-Angle
+}
+-- Definition Base-commands-Motion2D ends
+
+--Definition Base-commands-Speed6D starts
+Base-commands-Speed6D ::= SEQUENCE
+{
+    surge  T-Double,
+    sway  T-Double,
+    heave  T-Double,
+    roll  T-Double,
+    pitch  T-Double,
+    yaw  T-Double
+}
+-- Definition Base-commands-Speed6D ends
+
+--Definition Base-samples-BodyState starts
+Base-samples-BodyState ::= SEQUENCE
+{
+    time  Base-Time,
+    pose  Base-TransformWithCovariance,
+    velocity  Base-TwistWithCovariance
+}
+-- Definition Base-samples-BodyState ends
+
+--Definition Base-samples-IMUSensors starts
+Base-samples-IMUSensors ::= SEQUENCE
+{
+    time  Base-Time,
+    acc  Wrappers-Vector3d,
+    gyro  Wrappers-Vector3d,
+    mag  Wrappers-Vector3d
+}
+-- Definition Base-samples-IMUSensors ends
+
+--Definition Base-samples-Motion2D starts
+Base-samples-Motion2D ::= SEQUENCE
+{
+    translation  T-Double,
+    rotation  T-Double,
+    heading  Base-Angle,
+    time  Base-Time
+}
+-- Definition Base-samples-Motion2D ends
+
+--Definition Base-samples-Pressure starts
+Base-samples-Pressure ::= SEQUENCE
+{
+    pascal  T-Float,
+    time  Base-Time
+}
+-- Definition Base-samples-Pressure ends
+
+--Definition Base-samples-RigidBodyAcceleration starts
+Base-samples-RigidBodyAcceleration ::= SEQUENCE
+{
+    time  Base-Time,
+    acceleration  Wrappers-Vector3d,
+    cov-acceleration  Wrappers-Matrix3d,
+    angular-acceleration  Wrappers-Vector3d,
+    cov-angular-acceleration  Wrappers-Matrix3d
+}
+-- Definition Base-samples-RigidBodyAcceleration ends
+
+--Definition Base-samples-Wrench starts
+Base-samples-Wrench ::= SEQUENCE
+{
+    force  Wrappers-Vector3d,
+    torque  Wrappers-Vector3d,
+    time  Base-Time
+}
+-- Definition Base-samples-Wrench ends
+
+--Definition Base-samples-frame-frame-size-t starts
+Base-samples-frame-frame-size-t ::= SEQUENCE
+{
+    width  T-UInt16,
+    height  T-UInt16
+}
+-- Definition Base-samples-frame-frame-size-t ends
+
+--Definition Base-JointLimitsP starts
+Base-JointLimitsP{T-UInt32: maxBase-JointLimits-names, T-UInt32: maxBase-JointLimits-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-JointLimits-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-JointLimits-elements)) OF Base-JointLimitRange
+}
+-- Definition Base-JointLimitsP ends
+
+--Definition Base-JointLimits starts
+Base-JointLimits ::= Base-JointLimitsP{numBase-JointLimits-names, numBase-JointLimits-elements}
+-- Definition Base-JointLimits ends
+
+--Definition Base-JointTransform starts
+Base-JointTransform ::= SEQUENCE
+{
+    sourceframe  T-String,
+    targetframe  T-String,
+    rotationaxis  Wrappers-Vector3d
+}
+-- Definition Base-JointTransform ends
+
+--Definition Base-JointsTrajectoryP starts
+Base-JointsTrajectoryP{T-UInt32: maxBase-JointsTrajectory-names, T-UInt32: maxBase-JointsTrajectory-elements, T-UInt32: maxBase-JointsTrajectory-times-val} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-JointsTrajectory-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-JointsTrajectory-elements)) OF Base-JointTrajectory,
+    times-val  SEQUENCE (SIZE(1..maxBase-JointsTrajectory-times-val)) OF Base-Time
+}
+-- Definition Base-JointsTrajectoryP ends
+
+--Definition Base-JointsTrajectory starts
+Base-JointsTrajectory ::= Base-JointsTrajectoryP{numBase-JointsTrajectory-names, numBase-JointsTrajectory-elements, numBase-JointsTrajectory-times-val}
+-- Definition Base-JointsTrajectory ends
+
+--Definition Base-NamedVector-Base-JointLimitRangeP starts
+Base-NamedVector-Base-JointLimitRangeP{T-UInt32: maxBase-NamedVector-Base-JointLimitRange-names, T-UInt32: maxBase-NamedVector-Base-JointLimitRange-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointLimitRange-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointLimitRange-elements)) OF Base-JointLimitRange
+}
+-- Definition Base-NamedVector-Base-JointLimitRangeP ends
+
+--Definition Base-NamedVector-Base-JointLimitRange starts
+Base-NamedVector-Base-JointLimitRange ::= Base-NamedVector-Base-JointLimitRangeP{numBase-NamedVector-Base-JointLimitRange-names, numBase-NamedVector-Base-JointLimitRange-elements}
+-- Definition Base-NamedVector-Base-JointLimitRange ends
+
+--Definition Base-NamedVector-Base-JointStateP starts
+Base-NamedVector-Base-JointStateP{T-UInt32: maxBase-NamedVector-Base-JointState-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointState-names)) OF T-String,
+    elements  Base-JointTrajectory
+}
+-- Definition Base-NamedVector-Base-JointStateP ends
+
+--Definition Base-NamedVector-Base-JointState starts
+Base-NamedVector-Base-JointState ::= Base-NamedVector-Base-JointStateP{numBase-NamedVector-Base-JointState-names}
+-- Definition Base-NamedVector-Base-JointState ends
+
+--Definition Base-NamedVector-Base-WrenchP starts
+Base-NamedVector-Base-WrenchP{T-UInt32: maxBase-NamedVector-Base-Wrench-names, T-UInt32: maxBase-NamedVector-Base-Wrench-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-Wrench-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-Wrench-elements)) OF Base-Wrench
+}
+-- Definition Base-NamedVector-Base-WrenchP ends
+
+--Definition Base-NamedVector-Base-Wrench starts
+Base-NamedVector-Base-Wrench ::= Base-NamedVector-Base-WrenchP{numBase-NamedVector-Base-Wrench-names, numBase-NamedVector-Base-Wrench-elements}
+-- Definition Base-NamedVector-Base-Wrench ends
+
+--Definition Base-NamedVector-Base-JointTrajectoryP starts
+Base-NamedVector-Base-JointTrajectoryP{T-UInt32: maxBase-NamedVector-Base-JointTrajectory-names, T-UInt32: maxBase-NamedVector-Base-JointTrajectory-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointTrajectory-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointTrajectory-elements)) OF Base-JointTrajectory
+}
+-- Definition Base-NamedVector-Base-JointTrajectoryP ends
+
+--Definition Base-NamedVector-Base-JointTrajectory starts
+Base-NamedVector-Base-JointTrajectory ::= Base-NamedVector-Base-JointTrajectoryP{numBase-NamedVector-Base-JointTrajectory-names, numBase-NamedVector-Base-JointTrajectory-elements}
+-- Definition Base-NamedVector-Base-JointTrajectory ends
+
+--Definition Base-samples-DepthMapP starts
+Base-samples-DepthMapP{T-UInt32: maxBase-samples-DepthMap-timestamps, T-UInt32: maxBase-samples-DepthMap-vertical-interval, T-UInt32: maxBase-samples-DepthMap-horizontal-interval, T-UInt32: maxBase-samples-DepthMap-distances, T-UInt32: maxBase-samples-DepthMap-remissions} ::= SEQUENCE
+{
+    time  Base-Time,
+    timestamps  SEQUENCE (SIZE(1..maxBase-samples-DepthMap-timestamps)) OF Base-Time,
+    vertical-projection  Base-samples-DepthMap-PROJECTION-TYPE,
+    horizontal-projection  Base-samples-DepthMap-PROJECTION-TYPE,
+    vertical-interval  SEQUENCE (SIZE(1..maxBase-samples-DepthMap-vertical-interval)) OF T-Double,
+    horizontal-interval  SEQUENCE (SIZE(1..maxBase-samples-DepthMap-horizontal-interval)) OF T-Double,
+    vertical-size  T-UInt32,
+    horizontal-size  T-UInt32,
+    distances  SEQUENCE (SIZE(1..maxBase-samples-DepthMap-distances)) OF T-Float,
+    remissions  SEQUENCE (SIZE(1..maxBase-samples-DepthMap-remissions)) OF T-Float
+}
+-- Definition Base-samples-DepthMapP ends
+
+--Definition Base-samples-DepthMap starts
+Base-samples-DepthMap ::= Base-samples-DepthMapP{numBase-samples-DepthMap-timestamps, numBase-samples-DepthMap-vertical-interval, numBase-samples-DepthMap-horizontal-interval, numBase-samples-DepthMap-distances, numBase-samples-DepthMap-remissions}
+-- Definition Base-samples-DepthMap ends
+
+--Definition Base-samples-DistanceImageP starts
+Base-samples-DistanceImageP{T-UInt32: maxBase-samples-DistanceImage-data} ::= SEQUENCE
+{
+    time  Base-Time,
+    width  T-UInt16,
+    height  T-UInt16,
+    scale-x  T-Float,
+    scale-y  T-Float,
+    center-x  T-Float,
+    center-y  T-Float,
+    data  SEQUENCE (SIZE(1..maxBase-samples-DistanceImage-data)) OF T-Float
+}
+-- Definition Base-samples-DistanceImageP ends
+
+--Definition Base-samples-DistanceImage starts
+Base-samples-DistanceImage ::= Base-samples-DistanceImageP{numBase-samples-DistanceImage-data}
+-- Definition Base-samples-DistanceImage ends
+
+--Definition Base-commands-JointsP starts
+Base-commands-JointsP{T-UInt32: maxBase-commands-Joints-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-commands-Joints-names)) OF T-String,
+    elements  Base-JointTrajectory,
+    time  Base-Time
+}
+-- Definition Base-commands-JointsP ends
+
+--Definition Base-commands-Joints starts
+Base-commands-Joints ::= Base-commands-JointsP{numBase-commands-Joints-names}
+-- Definition Base-commands-Joints ends
+
+--Definition Base-samples-LaserScanP starts
+Base-samples-LaserScanP{T-UInt32: maxBase-samples-LaserScan-ranges, T-UInt32: maxBase-samples-LaserScan-remission} ::= SEQUENCE
+{
+    time  Base-Time,
+    start-angle  T-Double,
+    angular-resolution  T-Double,
+    speed  T-Double,
+    ranges  SEQUENCE (SIZE(1..maxBase-samples-LaserScan-ranges)) OF T-UInt32,
+    minrange  T-UInt32,
+    maxrange  T-UInt32,
+    remission  SEQUENCE (SIZE(1..maxBase-samples-LaserScan-remission)) OF T-Float
+}
+-- Definition Base-samples-LaserScanP ends
+
+--Definition Base-samples-LaserScan starts
+Base-samples-LaserScan ::= Base-samples-LaserScanP{numBase-samples-LaserScan-ranges, numBase-samples-LaserScan-remission}
+-- Definition Base-samples-LaserScan ends
+
+--Definition Base-samples-PointcloudP starts
+Base-samples-PointcloudP{T-UInt32: maxBase-samples-Pointcloud-points, T-UInt32: maxBase-samples-Pointcloud-colors} ::= SEQUENCE
+{
+    time  Base-Time,
+    points  SEQUENCE (SIZE(1..maxBase-samples-Pointcloud-points)) OF Wrappers-Vector3d,
+    colors  SEQUENCE (SIZE(1..maxBase-samples-Pointcloud-colors)) OF Wrappers-Vector4d
+}
+-- Definition Base-samples-PointcloudP ends
+
+--Definition Base-samples-Pointcloud starts
+Base-samples-Pointcloud ::= Base-samples-PointcloudP{numBase-samples-Pointcloud-points, numBase-samples-Pointcloud-colors}
+-- Definition Base-samples-Pointcloud ends
+
+--Definition Base-samples-RigidBodyState starts
+Base-samples-RigidBodyState ::= SEQUENCE
+{
+    time  Base-Time,
+    sourceframe  T-String,
+    targetframe  T-String,
+    position  Wrappers-Vector3d,
+    cov-position  Wrappers-Matrix3d,
+    orientation  Wrappers-Quaterniond,
+    cov-orientation  Wrappers-Matrix3d,
+    velocity  Wrappers-Vector3d,
+    cov-velocity  Wrappers-Matrix3d,
+    angular-velocity  Wrappers-Vector3d,
+    cov-angular-velocity  Wrappers-Matrix3d
+}
+-- Definition Base-samples-RigidBodyState ends
+
+--Definition Base-samples-SonarP starts
+Base-samples-SonarP{T-UInt32: maxBase-samples-Sonar-timestamps, T-UInt32: maxBase-samples-Sonar-bearings, T-UInt32: maxBase-samples-Sonar-bins} ::= SEQUENCE
+{
+    time  Base-Time,
+    timestamps  SEQUENCE (SIZE(1..maxBase-samples-Sonar-timestamps)) OF Base-Time,
+    bin-duration  Base-Time,
+    beam-width  Base-Angle,
+    beam-height  Base-Angle,
+    bearings  SEQUENCE (SIZE(1..maxBase-samples-Sonar-bearings)) OF Base-Angle,
+    speed-of-sound  T-Float,
+    bin-count  T-UInt32,
+    beam-count  T-UInt32,
+    bins  SEQUENCE (SIZE(1..maxBase-samples-Sonar-bins)) OF T-Float
+}
+-- Definition Base-samples-SonarP ends
+
+--Definition Base-samples-Sonar starts
+Base-samples-Sonar ::= Base-samples-SonarP{numBase-samples-Sonar-timestamps, numBase-samples-Sonar-bearings, numBase-samples-Sonar-bins}
+-- Definition Base-samples-Sonar ends
+
+--Definition Base-samples-SonarBeamP starts
+Base-samples-SonarBeamP{T-UInt32: maxBase-samples-SonarBeam-beam} ::= SEQUENCE
+{
+    time  Base-Time,
+    bearing  Base-Angle,
+    sampling-interval  T-Double,
+    speed-of-sound  T-Float,
+    beamwidth-horizontal  T-Float,
+    beamwidth-vertical  T-Float,
+    beam  OCTET STRING(SIZE(1..maxBase-samples-SonarBeam-beam))
+}
+-- Definition Base-samples-SonarBeamP ends
+
+--Definition Base-samples-SonarBeam starts
+Base-samples-SonarBeam ::= Base-samples-SonarBeamP{numBase-samples-SonarBeam-beam}
+-- Definition Base-samples-SonarBeam ends
+
+--Definition Base-samples-SonarScanP starts
+Base-samples-SonarScanP{T-UInt32: maxBase-samples-SonarScan-data, T-UInt32: maxBase-samples-SonarScan-time-beams} ::= SEQUENCE
+{
+    time  Base-Time,
+    data  OCTET STRING(SIZE(1..maxBase-samples-SonarScan-data)),
+    time-beams  SEQUENCE (SIZE(1..maxBase-samples-SonarScan-time-beams)) OF Base-Time,
+    number-of-beams  T-UInt16,
+    number-of-bins  T-UInt16,
+    start-bearing  Base-Angle,
+    angular-resolution  Base-Angle,
+    sampling-interval  T-Double,
+    speed-of-sound  T-Float,
+    beamwidth-horizontal  Base-Angle,
+    beamwidth-vertical  Base-Angle,
+    memory-layout-column  T-Boolean,
+    polar-coordinates  T-Boolean
+}
+-- Definition Base-samples-SonarScanP ends
+
+--Definition Base-samples-SonarScan starts
+Base-samples-SonarScan ::= Base-samples-SonarScanP{numBase-samples-SonarScan-data, numBase-samples-SonarScan-time-beams}
+-- Definition Base-samples-SonarScan ends
+
+--Definition Base-samples-WrenchesP starts
+Base-samples-WrenchesP{T-UInt32: maxBase-samples-Wrenches-names, T-UInt32: maxBase-samples-Wrenches-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-samples-Wrenches-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-samples-Wrenches-elements)) OF Base-Wrench,
+    time  Base-Time
+}
+-- Definition Base-samples-WrenchesP ends
+
+--Definition Base-samples-Wrenches starts
+Base-samples-Wrenches ::= Base-samples-WrenchesP{numBase-samples-Wrenches-names, numBase-samples-Wrenches-elements}
+-- Definition Base-samples-Wrenches ends
+
+--Definition Base-samples-frame-frame-attrib-t starts
+Base-samples-frame-frame-attrib-t ::= SEQUENCE
+{
+    data  T-String,
+    name-val  T-String
+}
+-- Definition Base-samples-frame-frame-attrib-t ends
+
+--Definition Base-JointTransformVectorP starts
+Base-JointTransformVectorP{T-UInt32: maxBase-JointTransformVector-names, T-UInt32: maxBase-JointTransformVector-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-JointTransformVector-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-JointTransformVector-elements)) OF Base-JointTransform
+}
+-- Definition Base-JointTransformVectorP ends
+
+--Definition Base-JointTransformVector starts
+Base-JointTransformVector ::= Base-JointTransformVectorP{numBase-JointTransformVector-names, numBase-JointTransformVector-elements}
+-- Definition Base-JointTransformVector ends
+
+--Definition Base-NamedVector-Base-JointTransformP starts
+Base-NamedVector-Base-JointTransformP{T-UInt32: maxBase-NamedVector-Base-JointTransform-names, T-UInt32: maxBase-NamedVector-Base-JointTransform-elements} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointTransform-names)) OF T-String,
+    elements  SEQUENCE (SIZE(1..maxBase-NamedVector-Base-JointTransform-elements)) OF Base-JointTransform
+}
+-- Definition Base-NamedVector-Base-JointTransformP ends
+
+--Definition Base-NamedVector-Base-JointTransform starts
+Base-NamedVector-Base-JointTransform ::= Base-NamedVector-Base-JointTransformP{numBase-NamedVector-Base-JointTransform-names, numBase-NamedVector-Base-JointTransform-elements}
+-- Definition Base-NamedVector-Base-JointTransform ends
+
+--Definition Base-samples-frame-FrameP starts
+Base-samples-frame-FrameP{T-UInt32: maxBase-samples-frame-Frame-image, T-UInt32: maxBase-samples-frame-Frame-attributes} ::= SEQUENCE
+{
+    time  Base-Time,
+    received-time  Base-Time,
+    image  OCTET STRING(SIZE(1..maxBase-samples-frame-Frame-image)),
+    attributes  SEQUENCE (SIZE(1..maxBase-samples-frame-Frame-attributes)) OF Base-samples-frame-frame-attrib-t,
+    size-val  Base-samples-frame-frame-size-t,
+    data-depth  T-UInt32,
+    pixel-size  T-UInt32,
+    row-size  T-UInt32,
+    frame-mode  Base-samples-frame-frame-mode-t,
+    frame-status  Base-samples-frame-frame-status-t
+}
+-- Definition Base-samples-frame-FrameP ends
+
+--Definition Base-samples-frame-Frame starts
+Base-samples-frame-Frame ::= Base-samples-frame-FrameP{numBase-samples-frame-Frame-image, numBase-samples-frame-Frame-attributes}
+-- Definition Base-samples-frame-Frame ends
+
+--Definition Base-samples-frame-FramePair starts
+Base-samples-frame-FramePair ::= SEQUENCE
+{
+    time  Base-Time,
+    first  Base-samples-frame-Frame,
+    second  Base-samples-frame-Frame,
+    id  T-UInt32
+}
+-- Definition Base-samples-frame-FramePair ends
+
+--Definition Wrappers-AngleAxisd starts
+Wrappers-AngleAxisd ::= SEQUENCE
+{
+    angle  T-Double,
+    axis  SEQUENCE(SIZE(1..3)) OF T-Double
+}
+-- Definition Wrappers-AngleAxisd ends
+
+--Definition Wrappers-Vector2d starts
+Wrappers-Vector2d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..2)) OF T-Double
+}
+-- Definition Wrappers-Vector2d ends
+
+--Definition Wrappers-Matrix2d starts
+Wrappers-Matrix2d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..4)) OF T-Double
+}
+-- Definition Wrappers-Matrix2d ends
+
+--Definition Wrappers-Vector3d starts
+Wrappers-Vector3d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..3)) OF T-Double
+}
+-- Definition Wrappers-Vector3d ends
+
+--Definition Wrappers-Matrix3d starts
+Wrappers-Matrix3d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..9)) OF T-Double
+}
+-- Definition Wrappers-Matrix3d ends
+
+--Definition Wrappers-Vector4d starts
+Wrappers-Vector4d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..4)) OF T-Double
+}
+-- Definition Wrappers-Vector4d ends
+
+--Definition Wrappers-Matrix4d starts
+Wrappers-Matrix4d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..16)) OF T-Double
+}
+-- Definition Wrappers-Matrix4d ends
+
+--Definition Wrappers-Vector6d starts
+Wrappers-Vector6d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..6)) OF T-Double
+}
+-- Definition Wrappers-Vector6d ends
+
+--Definition Wrappers-Matrix6d starts
+Wrappers-Matrix6d ::= SEQUENCE
+{
+    data  SEQUENCE(SIZE(1..36)) OF T-Double
+}
+-- Definition Wrappers-Matrix6d ends
+
+--Definition Wrappers-MatrixXdP starts
+Wrappers-MatrixXdP{T-UInt32: maxWrappers-MatrixXd-data} ::= SEQUENCE
+{
+    rows  T-Int32,
+    cols  T-Int32,
+    data  SEQUENCE (SIZE(1..maxWrappers-MatrixXd-data)) OF T-Double
+}
+-- Definition Wrappers-MatrixXdP ends
+
+--Definition Wrappers-MatrixXd starts
+Wrappers-MatrixXd ::= Wrappers-MatrixXdP{numWrappers-MatrixXd-data}
+-- Definition Wrappers-MatrixXd ends
+
+--Definition Wrappers-Quaterniond starts
+Wrappers-Quaterniond ::= SEQUENCE
+{
+    im  SEQUENCE(SIZE(1..3)) OF T-Double,
+    re  T-Double
+}
+-- Definition Wrappers-Quaterniond ends
+
+--Definition Wrappers-VectorXdP starts
+Wrappers-VectorXdP{T-UInt32: maxWrappers-VectorXd-data} ::= SEQUENCE
+{
+    data  SEQUENCE (SIZE(1..maxWrappers-VectorXd-data)) OF T-Double
+}
+-- Definition Wrappers-VectorXdP ends
+
+--Definition Wrappers-VectorXd starts
+Wrappers-VectorXd ::= Wrappers-VectorXdP{numWrappers-VectorXd-data}
+-- Definition Wrappers-VectorXd ends
+
+--Definition Base-JointTransform-m starts
+Base-JointTransform-m ::= SEQUENCE
+{
+    sourceframe  T-String,
+    targetframe  T-String,
+    rotationaxis  Wrappers-Vector3d
+}
+-- Definition Base-JointTransform-m ends
+
+--Definition Base-Pose2D-m starts
+Base-Pose2D-m ::= SEQUENCE
+{
+    position  Wrappers-Vector2d,
+    orientation  T-Double
+}
+-- Definition Base-Pose2D-m ends
+
+--Definition Base-Pose-m starts
+Base-Pose-m ::= SEQUENCE
+{
+    position  Wrappers-Vector3d,
+    orientation  Wrappers-Quaterniond
+}
+-- Definition Base-Pose-m ends
+
+--Definition Base-TransformWithCovariance-m starts
+Base-TransformWithCovariance-m ::= SEQUENCE
+{
+    translation  Wrappers-Vector3d,
+    orientation  Wrappers-Quaterniond,
+    cov  Wrappers-Matrix6d
+}
+-- Definition Base-TransformWithCovariance-m ends
+
+--Definition Base-TwistWithCovariance-m starts
+Base-TwistWithCovariance-m ::= SEQUENCE
+{
+    vel  Wrappers-Vector3d,
+    rot  Wrappers-Vector3d,
+    cov  Wrappers-Matrix6d
+}
+-- Definition Base-TwistWithCovariance-m ends
+
+--Definition Base-Waypoint-m starts
+Base-Waypoint-m ::= SEQUENCE
+{
+    position  Wrappers-Vector3d,
+    heading  T-Double,
+    tol-position  T-Double,
+    tol-heading  T-Double
+}
+-- Definition Base-Waypoint-m ends
+
+--Definition Base-Wrench-m starts
+Base-Wrench-m ::= SEQUENCE
+{
+    force  Wrappers-Vector3d,
+    torque  Wrappers-Vector3d
+}
+-- Definition Base-Wrench-m ends
+
+--Definition Base-commands-LinearAngular6DCommand-m starts
+Base-commands-LinearAngular6DCommand-m ::= SEQUENCE
+{
+    time  Base-Time,
+    linear  Wrappers-Vector3d,
+    angular  Wrappers-Vector3d
+}
+-- Definition Base-commands-LinearAngular6DCommand-m ends
+
+--Definition Base-samples-BodyState-m starts
+Base-samples-BodyState-m ::= SEQUENCE
+{
+    time  Base-Time,
+    pose  Base-TransformWithCovariance-m,
+    velocity  Base-TwistWithCovariance-m
+}
+-- Definition Base-samples-BodyState-m ends
+
+--Definition Base-samples-IMUSensors-m starts
+Base-samples-IMUSensors-m ::= SEQUENCE
+{
+    time  Base-Time,
+    acc  Wrappers-Vector3d,
+    gyro  Wrappers-Vector3d,
+    mag  Wrappers-Vector3d
+}
+-- Definition Base-samples-IMUSensors-m ends
+
+--Definition Base-samples-RigidBodyAcceleration-m starts
+Base-samples-RigidBodyAcceleration-m ::= SEQUENCE
+{
+    time  Base-Time,
+    acceleration  Wrappers-Vector3d,
+    cov-acceleration  Wrappers-Matrix3d,
+    angular-acceleration  Wrappers-Vector3d,
+    cov-angular-acceleration  Wrappers-Matrix3d
+}
+-- Definition Base-samples-RigidBodyAcceleration-m ends
+
+--Definition Base-samples-RigidBodyState-m starts
+Base-samples-RigidBodyState-m ::= SEQUENCE
+{
+    time  Base-Time,
+    sourceframe  T-String,
+    targetframe  T-String,
+    position  Wrappers-Vector3d,
+    cov-position  Wrappers-Matrix3d,
+    orientation  Wrappers-Quaterniond,
+    cov-orientation  Wrappers-Matrix3d,
+    velocity  Wrappers-Vector3d,
+    cov-velocity  Wrappers-Matrix3d,
+    angular-velocity  Wrappers-Vector3d,
+    cov-angular-velocity  Wrappers-Matrix3d
+}
+-- Definition Base-samples-RigidBodyState-m ends
+
+--Definition Base-samples-Wrench-m starts
+Base-samples-Wrench-m ::= SEQUENCE
+{
+    force  Wrappers-Vector3d,
+    torque  Wrappers-Vector3d,
+    time  Base-Time
+}
+-- Definition Base-samples-Wrench-m ends
+
+--Definition Base-JointTransformVector-mP starts
+Base-JointTransformVector-mP{T-UInt32: maxBase-JointTransformVector-m-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-JointTransformVector-m-names)) OF T-String,
+    elements  Std-orogen-typekits-mtype-std-vector-base-JointTransform
+}
+-- Definition Base-JointTransformVector-mP ends
+
+--Definition Base-JointTransformVector-m starts
+Base-JointTransformVector-m ::= Base-JointTransformVector-mP{numBase-JointTransformVector-m-names}
+-- Definition Base-JointTransformVector-m ends
+
+--Definition Base-NamedVector-base-JointTransform-mP starts
+Base-NamedVector-base-JointTransform-mP{T-UInt32: maxBase-NamedVector-base-JointTransform-m-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-base-JointTransform-m-names)) OF T-String,
+    elements  Std-orogen-typekits-mtype-std-vector-base-JointTransform
+}
+-- Definition Base-NamedVector-base-JointTransform-mP ends
+
+--Definition Base-NamedVector-base-JointTransform-m starts
+Base-NamedVector-base-JointTransform-m ::= Base-NamedVector-base-JointTransform-mP{numBase-NamedVector-base-JointTransform-m-names}
+-- Definition Base-NamedVector-base-JointTransform-m ends
+
+--Definition Base-NamedVector-base-Wrench-mP starts
+Base-NamedVector-base-Wrench-mP{T-UInt32: maxBase-NamedVector-base-Wrench-m-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-NamedVector-base-Wrench-m-names)) OF T-String,
+    elements  Std-orogen-typekits-mtype-std-vector-base-Wrench
+}
+-- Definition Base-NamedVector-base-Wrench-mP ends
+
+--Definition Base-NamedVector-base-Wrench-m starts
+Base-NamedVector-base-Wrench-m ::= Base-NamedVector-base-Wrench-mP{numBase-NamedVector-base-Wrench-m-names}
+-- Definition Base-NamedVector-base-Wrench-m ends
+
+--Definition Base-samples-Pointcloud-mP starts
+Base-samples-Pointcloud-mP{T-UInt32: maxBase-samples-Pointcloud-m-points, T-UInt32: maxBase-samples-Pointcloud-m-colors} ::= SEQUENCE
+{
+    time  Base-Time,
+    points  SEQUENCE (SIZE(1..maxBase-samples-Pointcloud-m-points)) OF Wrappers-Vector3d,
+    colors  SEQUENCE (SIZE(1..maxBase-samples-Pointcloud-m-colors)) OF Wrappers-Vector4d
+}
+-- Definition Base-samples-Pointcloud-mP ends
+
+--Definition Base-samples-Pointcloud-m starts
+Base-samples-Pointcloud-m ::= Base-samples-Pointcloud-mP{numBase-samples-Pointcloud-m-points, numBase-samples-Pointcloud-m-colors}
+-- Definition Base-samples-Pointcloud-m ends
+
+--Definition Base-samples-Wrenches-mP starts
+Base-samples-Wrenches-mP{T-UInt32: maxBase-samples-Wrenches-m-names} ::= SEQUENCE
+{
+    names  SEQUENCE (SIZE(1..maxBase-samples-Wrenches-m-names)) OF T-String,
+    elements  Std-orogen-typekits-mtype-std-vector-base-Wrench,
+    time  Base-Time
+}
+-- Definition Base-samples-Wrenches-mP ends
+
+--Definition Base-samples-Wrenches-m starts
+Base-samples-Wrenches-m ::= Base-samples-Wrenches-mP{numBase-samples-Wrenches-m-names}
+-- Definition Base-samples-Wrenches-m ends
+
+--Definition Wrappers-geometry-SplineP starts
+Wrappers-geometry-SplineP{T-UInt32: maxWrappers-geometry-Spline-knots, T-UInt32: maxWrappers-geometry-Spline-vertices} ::= SEQUENCE
+{
+    geometric-resolution  T-Double,
+    dimension  T-Int32,
+    curve-order  T-Int32,
+    kind  Wrappers-geometry-SplineType,
+    knots  SEQUENCE (SIZE(1..maxWrappers-geometry-Spline-knots)) OF T-Double,
+    vertices  SEQUENCE (SIZE(1..maxWrappers-geometry-Spline-vertices)) OF T-Double
+}
+-- Definition Wrappers-geometry-SplineP ends
+
+--Definition Wrappers-geometry-Spline starts
+Wrappers-geometry-Spline ::= Wrappers-geometry-SplineP{numWrappers-geometry-Spline-knots, numWrappers-geometry-Spline-vertices}
+-- Definition Wrappers-geometry-Spline ends
+
+--Definition Base-Trajectory-m starts
+Base-Trajectory-m ::= SEQUENCE
+{
+    speed  T-Double,
+    spline  Wrappers-geometry-Spline
+}
+-- Definition Base-Trajectory-m ends
+
+
+END

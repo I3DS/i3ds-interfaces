@@ -22,7 +22,7 @@ Sensor-Types DEFINITIONS ::=
 BEGIN
 IMPORTS T-UInt32 FROM TASTE-BasicTypes
 T-String FROM TASTE-ExtendedTypes
-Temperature FROM Temperature-Types;
+Base-Temperature FROM Base-Types;
 
 --------------------------------------------------------------------------------
 ---  State of operation for sensors and corresponding commands and _events_
@@ -47,7 +47,7 @@ SensorStatus ::=
 SEQUENCE
 {
    current-state        SensorState,
-   device-temperature   Temperature
+   device-temperature   Base-Temperature
 }
 
 -- Sample period given as microseconds between sample messages, 0 is aperiodic.

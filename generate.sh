@@ -10,12 +10,10 @@ ESROCOS_BASE_DIR="$ROOT/esrocos/types-base/asn"
 I3DS_BASE_DIR="$ROOT/i3ds/types-base/asn"
 I3DS_EXTRA_DIR="$ROOT/i3ds/types-extra/asn"
 
-I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/Eigen.asn \
-    $ESROCOS_BASE_DIR/Point.asn \
+I3DS_ASN1_FILES="$ESROCOS_BASE_DIR/base.asn \
     $ESROCOS_BASE_DIR/taste-extended.asn \
     $ESROCOS_BASE_DIR/taste-types.asn \
-    $ESROCOS_BASE_DIR/Temperature.asn \
-    $ESROCOS_BASE_DIR/Time.asn \
+    $ESROCOS_BASE_DIR/userdefs-base.asn \
     $I3DS_BASE_DIR/Analog.asn \
     $I3DS_BASE_DIR/Common.asn \
     $I3DS_BASE_DIR/IMU.asn \
