@@ -20,8 +20,31 @@
 PoseEstimator-Types DEFINITIONS ::=
 BEGIN
 IMPORTS SampleAttributes FROM SampleAttribute-Types
+T-Boolean, T-UInt8 FROM TASTE-BasicTypes
 Base-Pose FROM Base-Types;
 
+
+--- Pose estimator mode (false - tracking, true - imaging)
+PoseEstimatorImagingMode ::=
+SEQUENCE
+{
+   imaging-mode   T-Boolean
+}
+
+--- Pose estimator camera select
+PoseEstimatorCameraSelect ::=
+SEQUENCE
+{
+   camera-select   T-UInt8
+}
+
+--- Pose estimator configuration.
+PoseEstimatorConfiguration ::=
+SEQUENCE
+{
+   imaging-mode    T-Boolean,
+   camera-select   T-UInt8
+}
 
 --- Pose estimator measurement.
 PoseEstimatorMeasurement ::=
