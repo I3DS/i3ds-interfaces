@@ -1,0 +1,6 @@
+ESROCOS_BASE_DIR="types-base/asn"
+asn1files="${ESROCOS_BASE_DIR}/base.asn \
+           ${ESROCOS_BASE_DIR}/taste-extended.asn \
+           ${ESROCOS_BASE_DIR}/taste-types.asn \
+           ${ESROCOS_BASE_DIR}/userdefs-base.asn"
+echo ${asn1files}

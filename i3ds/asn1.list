@@ -1,0 +1,22 @@
+I3DS_BASE_DIR="types-base/asn"
+I3DS_EXTRA_DIR="types-extra/asn"
+
+asn1files="$I3DS_BASE_DIR/Analog.asn \
+           $I3DS_BASE_DIR/Common.asn \
+	   $I3DS_BASE_DIR/IMU.asn \
+	   $I3DS_BASE_DIR/DepthMap.asn \
+	   $I3DS_BASE_DIR/PointCloud.asn \
+	   $I3DS_BASE_DIR/Sensor.asn \
+	   $I3DS_BASE_DIR/Camera.asn \
+	   $I3DS_BASE_DIR/Frame.asn \
+	   $I3DS_BASE_DIR/LIDAR.asn \
+	   $I3DS_BASE_DIR/PoseEstimator.asn \
+	   $I3DS_BASE_DIR/Radar.asn \
+	   $I3DS_BASE_DIR/Region.asn \
+	   $I3DS_BASE_DIR/SampleAttribute.asn \
+	   $I3DS_BASE_DIR/StarTracker.asn \
+	   $I3DS_BASE_DIR/ToFCamera.asn \
+	   $I3DS_EXTRA_DIR/Trigger.asn \
+	   $I3DS_EXTRA_DIR/Power.asn \
+	   $I3DS_EXTRA_DIR/Flash.asn"
+echo ${asn1files}
