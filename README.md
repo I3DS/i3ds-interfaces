@@ -6,13 +6,13 @@ encoders/decoders.
 
 # Building
 ``` shell
-./generate.sh
+./scripts/simple.sh
 ```
 
-This will kick of a series of steps:
+This will kick of a series of steps via cmake:
  1. Generate files from ASN.1 definitions.
  2. ASN.1 Compilation done, processing for library compilation.
- 3. Processing done, kicking cmake to create .so.
+ 3. Compile the library and create the .so
  4. Compile done, creating install-bundle.
 
 The result is a tar-archive with the .so and headers, ready to be
@@ -22,8 +22,7 @@ installed on target
 
 In order to ensure proper encapsulation so that we can include
 libi3ds_asn1.so in systems that also hooks into TASTE, we are creating a
-proper C++ namespace as well as prefixing #defines with the same
-namespace.
+C++ namespace as well as prefixing #defines with the same namespace.
 
 asn1.exe can prefix both types and fields, but it does not cover
 everything. Most notably:
