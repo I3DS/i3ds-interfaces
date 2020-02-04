@@ -9,6 +9,7 @@ set (PROJECT_VERSION "1.0")
 set (PROJECT_SOVERSION "1")
 set (PROJECT_DESCRIPTION "i3ds ASN.1 bucket")
 
+option(BUILD_ASN1CC "Path to ASN.1 compiler" OFF)
 option(BUILD_EMBEDDED "Build for embedded systems" OFF)
 option(BUILD_DEBUG "Debug-builds" ON)
 
@@ -19,6 +20,14 @@ if (BUILD_EMBEDDED)
   SET(CMAKE_CXX_COMPILER "aarch64-linux-gnu-g++")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --sysroot=${CMAKE_FIND_ROOT_PATH}")
 endif (BUILD_EMBEDDED)
+
+# Check for ASN.1 compiler
+if (NOT BUILD_ASN1CC)
+  if (NOT DEFINED ENV{ASN1CC})
+    message (FATAL_ERROR "Could not find ASN1CC, need this to continue!")
+  endif()
+  set (BUILD_ASN1CC "$ENV{ASN1CC}")
+endif(NOT BUILD_ASN1CC)
 
 include (CheckCXXCompilerFlag REQUIRED)
 
@@ -70,18 +79,20 @@ if (NOT CMAKE_CXX_FLAGS)
   endif ()
 
 endif (NOT CMAKE_CXX_FLAGS)
+
+# -------------------------------------------------------
+# Generate asn.1 files
+# Call scripts/generate.sh
 #
-# -------------------------------------------
+# We need to do this during generation process, not during building as
+# we need the generated files when creating the target for i3ds_asn1.so
+execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate.sh" ${BUILD_ASN1CC})
 
 set (GENPATH ${CMAKE_CURRENT_SOURCE_DIR}/generated)
 include_directories(BEFORE ${GENPATH}/include)
-
 file(GLOB SRCS ${GENPATH}/src/*.cpp)
-# set (LIBS
-#   )
 
 add_library(i3ds_asn1 SHARED ${SRCS})
-#target_link_libraries (i3ds_asn1 ${LIBS})
 
 set_target_properties (
   i3ds_asn1 PROPERTIES
