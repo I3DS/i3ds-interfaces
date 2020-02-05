@@ -47,7 +47,7 @@ run_asn1 ()
 	# https://github.com/koalaman/shellcheck/wiki/SC2086 does not
 	# like this, however, if placed in "", asn1.exe fails to find
 	# the files.
-	command mono "${ASN1CC}" -c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
+	command /usr/bin/mono "${ASN1CC}" -c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
     fi
 }
 replace_sym ()
@@ -110,8 +110,8 @@ process_generated ()
     	done
     done
 
-    rename "s/h$/hpp/" -- *.h
-    rename "s/c$/cpp/" -- *.c
+    /usr/bin/rename "s/h$/hpp/" -- *.h
+    /usr/bin/rename "s/c$/cpp/" -- *.c
 
     mkdir -p include/"${NAMESPACE}"
     mkdir -p src/
