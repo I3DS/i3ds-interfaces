@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-full_path=$(realpath "${0}")
+full_path=$(readlink -f "${0}")
 ROOT="$(dirname $(dirname ${full_path}))"
 GENPATH=${ROOT}/generated
 NAMESPACE="i3ds_asn1"
