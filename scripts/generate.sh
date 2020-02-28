@@ -122,7 +122,7 @@ process_generated ()
 	# if we are in our own generated files, we drop __cplusplus stuff
 	if [[ ${ownfiles} == *${hf}* ]]; then
 	    start=$((start+1))
-	    for _ in $(seq 3); do
+	    for _ in $(/usr/bin/seq 3); do
 		sed -i "${start}d" "${hf}"
 	    done
 
@@ -132,8 +132,8 @@ process_generated ()
 	    closing_start=$(cat -n "${hf}" | grep -E "#ifdef(\ )*__cplusplus" | tail -n1| awk '{print $1}')
 	    end=$(cat -n "${hf}" | grep -1 -E "\#endif" | tail -n1 | awk '{print $1}')
 	    closing_end=$(cat -n "${hf}" | sed -n "${closing_start},${end}p" | grep "\#endif" | head -n1 | awk '{print $1}')
-	    to_drop=$(echo "${closing_end} - ${closing_start} + 1" | bc)
-	    for _ in $(seq "${to_drop}"); do
+	    to_drop=$(echo "${closing_end} - ${closing_start} + 1" | /usr/bin/bc)
+	    for _ in $(/usr/bin/seq "${to_drop}"); do
 		sed -i "${closing_start}d" "${hf}"
 	    done
 	fi
