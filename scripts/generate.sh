@@ -7,6 +7,18 @@ NAMESPACE="i3ds_asn1"
 test -d "${GENPATH}" || mkdir -p "${GENPATH}"
 pushd "${ROOT}" > /dev/null
 
+get_asn1_files()
+{
+    for file in $(find . -maxdepth 2 -mindepth 1 -name "asn1.list");
+    do
+	subsystem=$(dirname "${file}")
+	asnfiles=$(/bin/bash "${file}")
+	for af in ${asnfiles}; do
+	    echo "${subsystem}/${af}"
+	done
+    done
+}
+
 run_asn1 ()
 {
     # ---------------------------------------------------------------------
@@ -26,15 +38,7 @@ run_asn1 ()
 
     # ---------------------------------------------------------------------
     # Find all relevant ASN.1 definitions
-    ASN1_FILES=""
-    for file in $(find . -maxdepth 2 -mindepth 1 -name "asn1.list");
-    do
-	subsystem=$(dirname "${file}")
-	asnfiles=$(/bin/bash "${file}")
-	for af in ${asnfiles}; do
-	    ASN1_FILES="${ASN1_FILES} ${subsystem}/${af}"
-	done
-    done
+    ASN1_FILES="$(get_asn1_files)"
 
     # ---------------------------------------------------------------------
     # basic sanity check, avoid forbidden words
