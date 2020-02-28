@@ -26,8 +26,8 @@ run_asn1 ()
     # continuing..
     if [ -z "${ASN1CC}" ]; then
 	# Did we get is as a parameter?
-	if [ ! -z $1 ]; then
-	    test -x $1 && ASN1CC=$1
+	if [ ! -z "${1}" ]; then
+	    test -x "${1}" && ASN1CC=$1
 	    echo "Got ASN.1 as arugment - ${ASN1CC}"
 	else
 	    ASN1CC=$(find "${HOME}" -executable -name asn1.exe -print -quit)
@@ -71,35 +71,77 @@ replace_sym ()
 
 process_generated ()
 {
+    # Somewhat clumsy way of finding the name of all h-files generated
+    # from our asn.1 definitions:
+    for asn in $(get_asn1_files); do
+	ownfiles="${ownfiles} $(basename ${asn%.asn}.h)"
+    done
+
     pushd "${GENPATH}" > /dev/null
     H_FILES=$(ls -- *.h)
+    C_FILES=$(ls -- *.c)
 
+    # For each file, match on our h-files and change to proper
+    # includepath and rename to hpp
     for f in *.[ch]; do
-	# For each file, match on our h-files and change to proper
-	# includepath and rename to hpp
-	for hf in ${H_FILES}; do
-	    if grep -q "\"${hf}\"" "${f}"; then
-		sed -i "s/#include\ \"${hf}\"/#include\ <${NAMESPACE}\/${hf}pp>/g" "${f}"
-	    fi
-	done
-	# include namespace tag, but only after the #includes
-	# Get last line with inclue (1-indexed)
-	num=$(cat -n "${f}" |grep \#include|tail -n1|awk '{print $1}')
-	num=$((num+1))
-	sed -i "${num}inamespace ${NAMESPACE} {" "${f}"
+    	for hf in ${H_FILES}; do
+    	    if grep -q "\"${hf}\"" "${f}"; then
+    		sed -i "s/#include\ \"${hf}\"/#include\ <${NAMESPACE}\/${hf}pp>/g" "${f}"
+    	    fi
+    	done
     done
 
-    # Place closing namespace in different places in c and h
-    for file in $(find . -maxdepth 1 -name "*.c");
-    do
-	end=$(cat -n "${file}" | tail -n1 | awk '{print $1}')
-	sed -i "${end}i} // namespace ${NAMESPACE}" "${file}"
+    # Wrap each code in each C-file in proper namespace
+    for f in ${C_FILES}; do
+    	start=$(cat -n "${f}" |grep \#include|tail -n1|awk '{print $1}')
+    	start=$((start+1))
+    	sed -i "${start}inamespace ${NAMESPACE} {" "${f}"
+
+    	end=$(cat -n "${f}" | tail -n1 | awk '{print $1}')
+    	sed -i "${end}i} // namespace ${NAMESPACE}" "${f}"
     done
 
-    for file in $(find . -maxdepth 1 -name "*.h");
-    do
-	end=$(cat -n "${file}" | grep \#endif | tail -n1|awk '{print $1}')
-        sed -i "${end}i} // namespace ${NAMESPACE}" "${file}"
+
+    for hf in ${H_FILES}; do
+    	# we are moving this to cpp, so we don't need the ifdef __cplusplus-thing
+	# The pattern is consistent, 3 lines
+	# #ifdef  __cplusplus
+	# extern "C" {
+	# #endif
+
+	# Note, asn1crt.hpp is doing extra stuff in this block, so we
+	# need to inject namespace at a slightly different place
+	if [[ ${hf} == "asn1crt.h" ]]; then
+	    #endif	/* __cplusplus */
+	    start=$(cat -n "${hf}" | grep -E "\#endif.*__cplusplus" | head -n1 | awk '{print $1}')
+	    start=$((start+1))
+	else
+	    start=$(cat -n "${hf}" | grep -1 -E "extern(\ )*\"C\"(\ )*\{" | head -n1 | awk '{print $1}')
+	fi
+	sed -i "${start}inamespace ${NAMESPACE} {" "${hf}"
+	# if we are in our own generated files, we drop __cplusplus stuff
+	if [[ ${ownfiles} == *${hf}* ]]; then
+	    start=$((start+1))
+	    for _ in $(seq 3); do
+		sed -i "${start}d" "${hf}"
+	    done
+
+	    # ok, need to find the closing __cplusplus and enclosing
+	    # endif, these have an extra newline on occasion
+	    # FIXME
+	    closing_start=$(cat -n "${hf}" | grep -E "#ifdef(\ )*__cplusplus" | tail -n1| awk '{print $1}')
+	    end=$(cat -n "${hf}" | grep -1 -E "\#endif" | tail -n1 | awk '{print $1}')
+	    closing_end=$(cat -n "${hf}" | sed -n "${closing_start},${end}p" | grep "\#endif" | head -n1 | awk '{print $1}')
+	    to_drop=$(echo "${closing_end} - ${closing_start} + 1" | bc)
+	    for _ in $(seq "${to_drop}"); do
+		sed -i "${closing_start}d" "${hf}"
+	    done
+	fi
+
+	# inset enclosing } for namespace, this should be just before
+	# the last #endif (headerguard)
+	end=$(cat -n "${hf}" | grep -1 -E "\#endif" | tail -n1 | awk '{print $1}')
+	sed -i "${end}i} // namespace ${NAMESPACE}" "${hf}"
     done
 
     # Find all defined constants in hpp, which may (or may not) be
@@ -125,7 +167,7 @@ process_generated ()
     popd > /dev/null
 }
 
-run_asn1 $1
+run_asn1 "${1}"
 process_generated
 
 popd > /dev/null # ROOT
