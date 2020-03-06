@@ -7,6 +7,17 @@ NAMESPACE="i3ds_asn1"
 test -d "${GENPATH}" || mkdir -p "${GENPATH}"
 pushd "${ROOT}" > /dev/null
 
+
+# Test for required binaries (better to fail early)
+RENAME=/usr/bin/rename
+MONO=/usr/bin/mono
+SEQ=/usr/bin/seq
+BC=/usr/bin/bc
+test -x ${RENAME} || { echo -ne "\nERROR ${RENAME} not available, cannot continue\n\n"; exit 1; }
+test -x ${MONO}   || { echo -ne "\nERROR ${MONO} not available, cannot continue\n\n";   exit 1; }
+test -x ${SEW}    || { echo -ne "\nERROR ${SEQ} not available, cannot continue\n\n";    exit 1; }
+test -x ${BC}     || { echo -ne "\nERROR ${BC} not available, cannot continue\n\n";     exit 1; }
+
 get_asn1_files()
 {
     for file in $(find . -maxdepth 2 -mindepth 1 -name "asn1.list");
@@ -51,7 +62,7 @@ run_asn1 ()
 	# https://github.com/koalaman/shellcheck/wiki/SC2086 does not
 	# like this, however, if placed in "", asn1.exe fails to find
 	# the files.
-	command /usr/bin/mono "${ASN1CC}" -c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
+	command ${MONO} "${ASN1CC}" -c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
     fi
 }
 replace_sym ()
@@ -122,7 +133,7 @@ process_generated ()
 	# if we are in our own generated files, we drop __cplusplus stuff
 	if [[ ${ownfiles} == *${hf}* ]]; then
 	    start=$((start+1))
-	    for _ in $(/usr/bin/seq 3); do
+	    for _ in $(${SEQ} 3); do
 		sed -i "${start}d" "${hf}"
 	    done
 
@@ -132,8 +143,8 @@ process_generated ()
 	    closing_start=$(cat -n "${hf}" | grep -E "#ifdef(\ )*__cplusplus" | tail -n1| awk '{print $1}')
 	    end=$(cat -n "${hf}" | grep -1 -E "\#endif" | tail -n1 | awk '{print $1}')
 	    closing_end=$(cat -n "${hf}" | sed -n "${closing_start},${end}p" | grep "\#endif" | head -n1 | awk '{print $1}')
-	    to_drop=$(echo "${closing_end} - ${closing_start} + 1" | /usr/bin/bc)
-	    for _ in $(/usr/bin/seq "${to_drop}"); do
+	    to_drop=$(echo "${closing_end} - ${closing_start} + 1" | ${BC})
+	    for _ in $(${SEQ} "${to_drop}"); do
 		sed -i "${closing_start}d" "${hf}"
 	    done
 	fi
@@ -156,8 +167,8 @@ process_generated ()
     	done
     done
 
-    /usr/bin/rename "s/h$/hpp/" -- *.h
-    /usr/bin/rename "s/c$/cpp/" -- *.c
+    ${RENAME} "s/h$/hpp/" -- *.h
+    ${RENAME} "s/c$/cpp/" -- *.c
 
     mkdir -p include/"${NAMESPACE}"
     mkdir -p src/
