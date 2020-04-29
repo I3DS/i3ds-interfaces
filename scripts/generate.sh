@@ -57,6 +57,9 @@ run_asn1 ()
 	"${ROOT}"/scripts/find_illegal_asn1_field_names.py "${f}" || echo "${f} FAILED"
     done
 
+    # Nuke all files in generated/
+    rm -rf ${GENPATH}/*
+
     # ---------------------------------------------------------------------
     if [ -x "${ASN1CC}" ]; then
 	# https://github.com/koalaman/shellcheck/wiki/SC2086 does not
