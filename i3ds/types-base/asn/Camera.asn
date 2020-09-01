@@ -80,6 +80,16 @@ SEQUENCE
     pattern-sequence   PatternSequence
 }
 
+--- Camera sequence, instruct camera to take a series of N images (> 0),
+--- enable=False yields continous shot when camera is started
+ImageSequence ::= T-UInt32
+CameraImgSequence ::=
+SEQUENCE
+{
+    enable            T-Boolean,
+    image-sequence    ImageSequence
+}
+
 --- Camera configuration.
 CameraConfiguration ::=
 SEQUENCE
@@ -94,7 +104,10 @@ SEQUENCE
    flash-enabled           T-Boolean,
    flash-strength          FlashStrength,
    pattern-enabled         T-Boolean,
-   pattern-sequence        PatternSequence
+   pattern-sequence        PatternSequence,
+   image-sequence-enabled  T-Boolean,
+   image-sequence          ImageSequence,
+   image-max-sequence      ImageSequence
 }
 
 END
