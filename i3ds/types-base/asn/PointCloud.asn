@@ -22,7 +22,7 @@ PointCloud-Types DEFINITIONS ::=
 BEGIN
 IMPORTS SampleAttributes FROM SampleAttribute-Types
 PlanarRegion FROM Region-Types
-T-UInt32 FROM TASTE-BasicTypes
+T-UInt32,T-Boolean FROM TASTE-BasicTypes
 T-UInt16 FROM TASTE-ExtendedTypes;
 
 --- Point fields format adapted from PCD.
@@ -41,6 +41,32 @@ SEQUENCE
    point-size     T-UInt16,          -- Point size in bytes including alignment padding.
    width          T-UInt32,          -- Width of point-cloud.
    height         T-UInt32           -- Height of point-cloud, 1 when unorganized.
+}
+
+-- PointCloud sensor mode command
+PointCloudSensorMode ::=
+ENUMERATED
+{
+    mode-undefined,
+    mode-camera,                     -- operate as regular camera
+    mode-camera-oneshot,             -- operate as regular camera, but only one image
+    mode-structured-light            -- Mode to use with SINTEFs Structured Light projector
+}
+
+PointCloudMode ::=
+SEQUENCE
+{
+    mode          PointCloudSensorMode,
+    enable-flash  T-Boolean
+}
+
+PointCloudAcquire ::=
+SEQUENCE
+{
+   -- only relevant in 3D-mode, this will also forward the images used
+   -- to generate the pointcloud if there are any camera-clients
+   -- attached to the sensor
+   publish-images T-Boolean
 }
 
 END
