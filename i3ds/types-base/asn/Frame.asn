@@ -34,6 +34,7 @@ ENUMERATED
    mode-rgb,        -- Colour image in RGB format
    mode-bgr,        -- Colour image in BGR format
    mode-uyvy,       -- Colour image in UYVY format
+   mode-yuyv,	    -- Colour images in YUY2/YUYV/YUYV422 format
    mode-rgba,       -- Colour image in RGBA format (RGB32)
    mode-bayer-rggb, -- RAW image with RGGB bayer layout
    mode-bayer-grbg, -- RAW image with GRBG bayer layout
