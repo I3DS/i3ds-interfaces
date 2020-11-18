@@ -18,5 +18,6 @@ asn1files="$I3DS_BASE_DIR/Analog.asn \
 	   $I3DS_BASE_DIR/ToFCamera.asn \
 	   $I3DS_EXTRA_DIR/Trigger.asn \
 	   $I3DS_EXTRA_DIR/Power.asn \
-	   $I3DS_EXTRA_DIR/Flash.asn"
+	   $I3DS_EXTRA_DIR/Flash.asn \
+	   $I3DS_EXTRA_DIR/PatternProjector.asn"
 echo ${asn1files}
