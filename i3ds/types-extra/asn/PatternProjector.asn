@@ -22,7 +22,7 @@ PatternProjector-Types DEFINITIONS ::=
 BEGIN
 IMPORTS T-Boolean FROM TASTE-BasicTypes;
 
-Pattern-mode-t ::=
+PatternSensorMode ::=
 ENUMERATED
 {
    mode-undefined,
@@ -33,7 +33,7 @@ ENUMERATED
 PatternDescriptor ::=
 SEQUENCE
 {
-   mode   Pattern-mode-t,
+   mode   PatternSensorMode,
    enable T-Boolean
 }
 
