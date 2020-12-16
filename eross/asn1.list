@@ -1,0 +1,8 @@
+EROSS_BASE_DIR="types-base/asn"
+EROSS_EXTRA_DIR="types-extra/asn"
+
+asn1files="$EROSS_EXTRA_DIR/Gripper.asn \
+           $EROSS_EXTRA_DIR/Sirom.asn \
+	   $EROSS_EXTRA_DIR/Infuse.asn"
+
+echo ${asn1files}

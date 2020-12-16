@@ -1,0 +1,62 @@
+--------------------------------------------------------------------------------
+--- ASN.1 message definitions for EROSS extra types (Sirom)
+---
+--- Copyright (C) 2017      Stiftelsen SINTEF
+--- Copyright (C) 2018-2020 SINTEF AS
+---
+--- This program is free software; you can redistribute it and/or
+--- modify it under the terms of the GNU General Public License
+--- as published by the Free Software Foundation; either version 2
+--- of the License, or (at your option) any later version.
+---
+--- This program is distributed in the hope that it will be useful,
+--- but WITHOUT ANY WARRANTY; without even the implied warranty of
+--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--- GNU General Public License for more details.
+---
+--- You should have received a copy of the GNU General Public License
+--- along with this program;  if not, see <http://www.gnu.org/licenses/>.
+--------------------------------------------------------------------------------
+
+Sirom-Types DEFINITIONS ::=
+BEGIN
+IMPORTS T-UInt32 FROM TASTE-BasicTypes;
+
+-- State and cmd based on email dated Jan 21. 2021 from jabejar@gmv.com
+
+SiromState ::= ENUMERATED
+{
+   error(-1),
+   disabled(0),
+   standby(1),
+   open(2),
+   latching(3),
+   latched(4),
+   powered(5)
+}
+
+SiromCommand ::= ENUMERATED
+{
+   disable(0),
+   goto-open(1),
+   goto-latched(2),
+   -- Internally for SIROM, goto-latched indicates
+   -- a) go to capture
+   -- b) got to latch
+   goto-standby(3),
+   power-on(4),
+   -- pwr-*, only valid when SIROM is latched
+   power-off(5),
+   stop(6)
+}
+
+-- CAN will use either 11 or 29 bits for addressing
+SiromCANId ::= T-UInt32
+
+SiromMsg ::= SEQUENCE
+{
+   canid  SiromCANId,
+   cmd   SiromCommand
+}
+
+END
