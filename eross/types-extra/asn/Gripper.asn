@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------------
+--- ASN.1 message definitions for EROSS extra types (PIAP E.E. Gripper)
+---
+--- Copyright (C) 2017      Stiftelsen SINTEF
+--- Copyright (C) 2018-2020 SINTEF AS
+---
+--- This program is free software; you can redistribute it and/or
+--- modify it under the terms of the GNU General Public License
+--- as published by the Free Software Foundation; either version 2
+--- of the License, or (at your option) any later version.
+---
+--- This program is distributed in the hope that it will be useful,
+--- but WITHOUT ANY WARRANTY; without even the implied warranty of
+--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--- GNU General Public License for more details.
+---
+--- You should have received a copy of the GNU General Public License
+--- along with this program;  if not, see <http://www.gnu.org/licenses/>.
+--------------------------------------------------------------------------------
+
+Gripper-Types DEFINITIONS ::=
+BEGIN
+
+GripperState ::= ENUMERATED
+{
+  error,
+  standby,
+  operational,
+  capturing,
+  capture-soft,
+  capture-hard,
+  capture-rigid,
+  idle,
+  release
+}
+
+GripperCMD ::= ENUMERATED
+{
+  stop,					-- stop, move state back into standby
+  activate,				-- move to operational state (from standby)
+  capture,				-- initiate capture operation, will transition gripper from capture to idle
+  release				-- open gripper
+}
+
+END

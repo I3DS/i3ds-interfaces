@@ -1,0 +1,69 @@
+--------------------------------------------------------------------------------
+--- ASN.1 message definitions for EROSS extra types (Sirom)
+---
+--- Copyright (C) 2017      Stiftelsen SINTEF
+--- Copyright (C) 2018-2020 SINTEF AS
+---
+--- This program is free software; you can redistribute it and/or
+--- modify it under the terms of the GNU General Public License
+--- as published by the Free Software Foundation; either version 2
+--- of the License, or (at your option) any later version.
+---
+--- This program is distributed in the hope that it will be useful,
+--- but WITHOUT ANY WARRANTY; without even the implied warranty of
+--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--- GNU General Public License for more details.
+---
+--- You should have received a copy of the GNU General Public License
+--- along with this program;  if not, see <http://www.gnu.org/licenses/>.
+--------------------------------------------------------------------------------
+
+Sirom-Types DEFINITIONS ::=
+BEGIN
+IMPORTS T-UInt32 FROM TASTE-BasicTypes;
+
+-- State and cmd are detailed in D3.4.3, Sec 4.3.2
+
+SiromState ::= ENUMERATED
+{
+   standby,
+   open,
+   capturing,
+   opening,
+   latched,
+   power,
+   -- At this stage, the only way out of failure state is manual reset
+   failure
+}
+
+SiromCommand ::= ENUMERATED
+{
+   stop,
+   to-rtc,
+   -- Internally for SIROM, to-lat indicates
+   -- a) go to capture
+   -- b) got to latch
+   to-lat,
+   to-stby,
+   -- pwr-*, only valid when SIROM is latched
+   pwr-on,
+   pwr-off
+}
+
+-- CAN will use either 11 or 29 bits for addressing
+SiromCANId ::= T-UInt32
+
+SiromMsg ::= SEQUENCE
+{
+   canid  SiromCANId,
+   cmd   SiromCommand
+}
+
+SiromStatus ::= SEQUENCE
+{
+   canid SiromCANId,
+   current-state SiromState
+}
+
+
+END
