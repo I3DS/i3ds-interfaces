@@ -82,11 +82,11 @@ endif (NOT CMAKE_CXX_FLAGS)
 
 # -------------------------------------------------------
 # Generate asn.1 files
-# Call scripts/generate.sh
+# Call scripts/modify.sh
 #
 # We need to do this during generation process, not during building as
 # we need the generated files when creating the target for i3ds_asn1.so
-execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate.sh" ${BUILD_ASN1CC})
+execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/scripts/modify.sh" ${BUILD_ASN1CC})
 
 set (GENPATH ${CMAKE_CURRENT_SOURCE_DIR}/generated)
 include_directories(BEFORE ${GENPATH}/include)

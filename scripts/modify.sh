@@ -7,7 +7,6 @@ NAMESPACE="i3ds_asn1"
 test -d "${GENPATH}" || mkdir -p "${GENPATH}"
 pushd "${ROOT}" > /dev/null
 
-
 # Test for required binaries (better to fail early)
 RENAME=/usr/bin/rename
 MONO=/usr/bin/mono
@@ -17,6 +16,7 @@ test -x ${RENAME} || { echo -ne "\nERROR ${RENAME} not available, cannot continu
 test -x ${MONO}   || { echo -ne "\nERROR ${MONO} not available, cannot continue\n\n";   exit 1; }
 test -x ${SEW}    || { echo -ne "\nERROR ${SEQ} not available, cannot continue\n\n";    exit 1; }
 test -x ${BC}     || { echo -ne "\nERROR ${BC} not available, cannot continue\n\n";     exit 1; }
+
 
 get_asn1_files()
 {
@@ -65,7 +65,9 @@ run_asn1 ()
 	# https://github.com/koalaman/shellcheck/wiki/SC2086 does not
 	# like this, however, if placed in "", asn1.exe fails to find
 	# the files.
-	command ${MONO} "${ASN1CC}" -c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
+	command ${MONO} "${ASN1CC}" \
+		--rename-policy 3 \
+		-c -uPER -o "${GENPATH}" ${ASN1_FILES} && echo "Files Generated OK"
     fi
 }
 replace_sym ()
@@ -158,13 +160,30 @@ process_generated ()
 	sed -i "${end}i} // namespace ${NAMESPACE}" "${hf}"
     done
 
+    # Find all enums defined, then scan down to see if there are
+    # #defines for these (that ensures a stable namespace). These needs
+    # to be prefixed swith "${NAMESPACE}::"
+    for file in $(find . -maxdepth 1 -name "*.h")
+    do
+	# Get linenumber of "please use" and
+	for linenum in $(grep -n "please use the following macros" ${file}|awk '{print $1}'|cut -d ':' -f1);
+	do
+	    # find closing line and inject namespace in token
+	    end=$(cat -n ${file} | tail -n+${linenum} | awk '{print NF " " $1}'|grep -m 1 ^1\ |awk '{print $2}')
+	    for ln in $(${SEQ} ${linenum} ${end}); do
+		active_line=$(tail -n+${ln} ${file}|head -n1)
+		sed -i "${ln}s/#define \(.*\) \(.*\)/#define ns\1 ${NAMESPACE}::\2/" ${file}
+	    done
+	done
+    done
     # Find all defined constants in hpp, which may (or may not) be
     # exposed to to others which in turn may lead to define-collisions
     # Generate a list of all symbols defined:
     # for sym in $(grep "^\#define" -- *.h|cut -d '(' -f 1 | awk '{print $2}');
     for file in $(find . -maxdepth 1 -name "*.h")
     do
-    	grep "^\#define" "${file}" | cut -d '(' -f 1 | awk '{print $2}'| while IFS= read -r sym
+	# Note: if symbol is prefixed with ${NAMSESPACE}::", ignore line.
+    	grep "^\#define" "${file}" | grep -v "${NAMESPACE}::" | cut -d '(' -f 1 | awk '{print $2}'| while IFS= read -r sym
     	do
     	    replace_sym "${sym}"
     	done
@@ -181,7 +200,9 @@ process_generated ()
     popd > /dev/null
 }
 
+echo "Using ${0} to hand parsing of ASN.1 files over to asn1scc"
 run_asn1 "${1}"
+echo "Using ${0} to modify generated code"
 process_generated
 
 popd > /dev/null # ROOT
