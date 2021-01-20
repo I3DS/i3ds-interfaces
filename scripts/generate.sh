@@ -172,7 +172,7 @@ process_generated ()
 	    end=$(cat -n ${file} | tail -n+${linenum} | awk '{print NF " " $1}'|grep -m 1 ^1\ |awk '{print $2}')
 	    for ln in $(seq ${linenum} ${end}); do
 		active_line=$(tail -n+${ln} ${file}|head -n1)
-		sed -i "${ln}s/#define \(.*\) \(.*\)/#define \1 ${NAMESPACE}::\2/" ${file}
+		sed -i "${ln}s/#define \(.*\) \(.*\)/#define ns\1 ${NAMESPACE}::\2/" ${file}
 	    done
 	done
     done
