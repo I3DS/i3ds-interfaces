@@ -23,23 +23,22 @@ BEGIN
 
 GripperState ::= ENUMERATED
 {
-  error,
-  standby,
-  operational,
-  capturing,
-  capture-soft,
-  capture-hard,
-  capture-rigid,
-  idle,
-  release
+  error(-1),
+  disabled(0),
+  standby(1),
+  open(2),
+  capturing(3),
+  captured(4),
+  releasing(5)
 }
 
 GripperCMD ::= ENUMERATED
 {
-  stop,					-- stop, move state back into standby
-  activate,				-- move to operational state (from standby)
-  capture,				-- initiate capture operation, will transition gripper from capture to idle
-  release				-- open gripper
+  disable(0),
+  enable(1),
+  capture(2),
+  release(3),
+  stop(4)
 }
 
 END

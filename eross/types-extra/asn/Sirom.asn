@@ -22,32 +22,32 @@ Sirom-Types DEFINITIONS ::=
 BEGIN
 IMPORTS T-UInt32 FROM TASTE-BasicTypes;
 
--- State and cmd are detailed in D3.4.3, Sec 4.3.2
+-- State and cmd based on email dated Jan 21. 2021 from jabejar@gmv.com
 
 SiromState ::= ENUMERATED
 {
-   standby,
-   open,
-   capturing,
-   opening,
-   latched,
-   power,
-   -- At this stage, the only way out of failure state is manual reset
-   failure
+   error(-1),
+   disabled(0),
+   standby(1),
+   open(2),
+   latching(3),
+   latched(4),
+   powered(5)
 }
 
 SiromCommand ::= ENUMERATED
 {
-   stop,
-   to-rtc,
-   -- Internally for SIROM, to-lat indicates
+   disable(0),
+   goto-open(1),
+   goto-latched(2),
+   -- Internally for SIROM, goto-latched indicates
    -- a) go to capture
    -- b) got to latch
-   to-lat,
-   to-stby,
+   goto-standby(3),
+   power-on(4),
    -- pwr-*, only valid when SIROM is latched
-   pwr-on,
-   pwr-off
+   power-off(5),
+   stop(6)
 }
 
 -- CAN will use either 11 or 29 bits for addressing
@@ -58,12 +58,5 @@ SiromMsg ::= SEQUENCE
    canid  SiromCANId,
    cmd   SiromCommand
 }
-
-SiromStatus ::= SEQUENCE
-{
-   canid SiromCANId,
-   current-state SiromState
-}
-
 
 END
