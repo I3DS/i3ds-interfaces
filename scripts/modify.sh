@@ -7,7 +7,6 @@ NAMESPACE="i3ds_asn1"
 test -d "${GENPATH}" || mkdir -p "${GENPATH}"
 pushd "${ROOT}" > /dev/null
 
-
 # Test for required binaries (better to fail early)
 RENAME=/usr/bin/rename
 MONO=/usr/bin/mono
@@ -17,6 +16,7 @@ test -x ${RENAME} || { echo -ne "\nERROR ${RENAME} not available, cannot continu
 test -x ${MONO}   || { echo -ne "\nERROR ${MONO} not available, cannot continue\n\n";   exit 1; }
 test -x ${SEW}    || { echo -ne "\nERROR ${SEQ} not available, cannot continue\n\n";    exit 1; }
 test -x ${BC}     || { echo -ne "\nERROR ${BC} not available, cannot continue\n\n";     exit 1; }
+
 
 get_asn1_files()
 {
@@ -170,7 +170,7 @@ process_generated ()
 	do
 	    # find closing line and inject namespace in token
 	    end=$(cat -n ${file} | tail -n+${linenum} | awk '{print NF " " $1}'|grep -m 1 ^1\ |awk '{print $2}')
-	    for ln in $(seq ${linenum} ${end}); do
+	    for ln in $(${SEQ} ${linenum} ${end}); do
 		active_line=$(tail -n+${ln} ${file}|head -n1)
 		sed -i "${ln}s/#define \(.*\) \(.*\)/#define ns\1 ${NAMESPACE}::\2/" ${file}
 	    done
@@ -200,7 +200,9 @@ process_generated ()
     popd > /dev/null
 }
 
+echo "Using ${0} to hand parsing of ASN.1 files over to asn1scc"
 run_asn1 "${1}"
+echo "Using ${0} to modify generated code"
 process_generated
 
 popd > /dev/null # ROOT

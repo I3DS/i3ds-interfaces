@@ -52,7 +52,7 @@ To add to an existing subsystem, simply place the new asn-file in the
 appropriate directoy and update asn1.list for that subsystem.
 
 To add a new subsystem, copy the directoy layout of esrocos and add a
-new asn1.list on the same form. generate.sh expects this file to return
+new asn1.list on the same form. modify.sh expects this file to return
 a string with all relevant asn1-files.
 
 # Using libi3ds_asn.so
