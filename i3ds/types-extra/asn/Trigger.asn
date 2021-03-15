@@ -40,7 +40,7 @@ TriggerOffset ::= INTEGER (0 .. 16777215)
 TriggerDuration ::= INTEGER (0 .. 1023)
 
 --- Trigger mask.
-TriggerMask ::= SEQUENCE (SIZE (8)) OF T-Boolean
+TriggerMask ::= SEQUENCE (SIZE (10)) OF T-Boolean
 
 --- Sets the given generator source to a period.
 GeneratorSetup ::=
