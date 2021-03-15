@@ -28,7 +28,7 @@ TriggerGenerator ::= INTEGER (1 .. 4)
 TriggerInput ::= INTEGER (1 .. 4)
 
 --- Trigger output channels.
-TriggerOutput ::= INTEGER (1 .. 8)
+TriggerOutput ::= INTEGER (1 .. 10)
 
 --- Trigger period in microseconds.
 TriggerPeriod ::= INTEGER (0 .. 16777215)
