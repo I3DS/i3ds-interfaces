@@ -23,39 +23,57 @@ BEGIN
 IMPORTS T-Boolean FROM TASTE-BasicTypes
 T-Double,T-UInt64 FROM TASTE-ExtendedTypes;
 
-InfuseMode ::= ENUMERATED
+-- INFUSE-IP-IF Input data
+Trg-pfip-infuse-mode-modeEnum::= ENUMERATED { dis, rorn, tprn }
+INFUSE-IP-IF-Input ::= SEQUENCE
 {
-  dis,
-  rorn,
-  tprn
+    trg-pfip-infuse-mode    Trg-pfip-infuse-mode-modeEnum,
+    gnc-time                T-Double
 }
 
-InfuseModus ::= SEQUENCE
-{
-   mode	    InfuseMode,
-   gnc-time T-Double
-}
-
--- Required types is mandated by D3.2, 4.2.1.3
--- Size of arrays is given in D3.6, 7. (App)
-InfuseSequence ::= SEQUENCE
+-- INFUSE-IP-IF Output data
+Flg-pfip-mode-meas-modeEnum::= ENUMERATED { dis, rorn, tprn }
+INFUSE-IP-IF-Output ::= SEQUENCE
 {
     -- relative pos of client wrt servicer, in servicer frame.
     svc-pos-svc-clt-meas        SEQUENCE(SIZE(1..3)) OF T-Double,
-    flg-svc-pos-svc-clt-meas	T-Boolean, --  valid?
     q-svc-clt-meas              SEQUENCE(SIZE(1..4)) OF T-Double,
-    flg-q-svc-clt-meas		T-Boolean, --  valid?
 
     -- Time delay to rpocess imager and pose, in microsec (us)
     pose-proc-delay-meas        T-UInt64,
 
     --  error-covariance (6x6 array)
     cov-svc-pose-svc-clt-meas   SEQUENCE(SIZE(1..36)) OF T-Double,
-
     flg-pfip-converged-meas     T-Boolean,
     flg-sppj-PC-used-meas       T-Boolean,
     flg-pfip-detectfailed-meas  T-Boolean,
-    mode			InfuseMode
+    flg-pfip-mode-meas          Flg-pfip-mode-meas-modeEnum
+    }
+
+-- RA-IP-IF Input data
+Trg-raip-mode-modeEnum::= ENUMERATED { dis, jbsf, prince, assist, sirom, point-cloud }
+Trg-raip-config-selector-modeEnum::= ENUMERATED { empty, gripper, gripper-client, sirom, sirom-oru }
+RA-IP-IF-Input ::= SEQUENCE
+{
+    trg-raip-mode              Trg-raip-mode-modeEnum,
+    trg-raip-config-selector   Trg-raip-config-selector-modeEnum,
+    trg-raip-reset             T-Boolean,
+    gnc-time                   T-Double
 }
+
+-- RA-IP-IF Output data
+Flg-raip-mode-modeEnum::= ENUMERATED {dis, pbsf}
+RA-IP-IF-Output ::= SEQUENCE
+{
+    rgti-pos-rgti-clt-meas      SEQUENCE(SIZE(1..3)) OF T-Double,
+    rgti-vel-rgti-clt-meas      SEQUENCE(SIZE(1..3)) OF T-Double,
+    q-rgti-clt-meas             SEQUENCE(SIZE(1..4)) OF T-Double,
+    rgti-rate-rgti-clt-meas     SEQUENCE(SIZE(1..3)) OF T-Double,
+    flg-raip-converged-meas     T-Boolean,
+    flg-raip-trackloss-meas     T-Boolean,
+    flg-rppj-pc-used-meas       T-Boolean,
+    flg-raip-mode               Flg-raip-mode-modeEnum
+}
+
 
 END
