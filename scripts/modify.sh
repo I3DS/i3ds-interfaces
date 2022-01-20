@@ -150,6 +150,7 @@ process_generated ()
 
 	# Note, asn1crt.hpp is doing extra stuff in this block, so we
 	# need to inject namespace at a slightly different place
+    # FIXME: namespace is injected in the wrong place in asn1crt.hpp
 	if [[ ${hf} == "asn1crt.h" ]]; then
 	    #endif	/* __cplusplus */
 	    start=$(cat -n "${hf}" | grep -E "\#endif.*__cplusplus" | head -n1 | awk '{print $1}')
@@ -219,6 +220,10 @@ process_generated ()
     mkdir -p src/
     mv -- *.hpp include/"${NAMESPACE}"/.
     mv -- *.cpp src/
+
+    # Have to include standard C header to avoid error with fast_int
+    sed -i 's/cstdint/stdint.h/'  include/"${NAMESPACE}"/asn1crt.hpp
+    sed -i 's/cinttypes/inttypes.h/' include/"${NAMESPACE}"/asn1crt.hpp
 
     popd > /dev/null
 }
