@@ -21,7 +21,7 @@ cmake -DCMAKE_INSTALL_PREFIX="${INSTALLPATH}" \
       -DCMAKE_INSTALL_LIBDIR=lib \
       -DBUILD_EMBEDDED=OFF \
       -DBUILD_DEBUG=ON \
-      -DBUILD_ASN1CC="/home/henrikau/dev/asn1scc/Asn1f4/bin/Debug/asn1.exe" \
+      -DBUILD_ASN1CC="docker" \
       -DCMAKE_INSTALL_INCLUDEDIR=include \
       ..
 make VERBOSE=1 -j8

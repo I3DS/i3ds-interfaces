@@ -13,7 +13,11 @@ MONO=/usr/bin/mono
 SEQ=/usr/bin/seq
 BC=/usr/bin/bc
 test -x ${RENAME} || { echo -ne "\nERROR ${RENAME} not available, cannot continue\n\n"; exit 1; }
-test -x ${MONO}   || { echo -ne "\nERROR ${MONO} not available, cannot continue\n\n";   exit 1; }
+if [ "${1}" == "docker" ]; then
+    test -x $(which docker)   || { echo -ne "\nERROR docker not available, cannot continue\n\n";   exit 1; }
+else
+    test -x ${MONO}   || { echo -ne "\nERROR ${MONO} not available, cannot continue\n\n";   exit 1; }
+fi
 test -x ${SEW}    || { echo -ne "\nERROR ${SEQ} not available, cannot continue\n\n";    exit 1; }
 test -x ${BC}     || { echo -ne "\nERROR ${BC} not available, cannot continue\n\n";     exit 1; }
 
@@ -28,6 +32,25 @@ get_asn1_files()
 	    echo "${subsystem}/${af}"
 	done
     done
+}
+
+docker_run_asn1()
+{
+    # Get docker image
+    docker pull ttsiodras/asn1scc@sha256:f0958e1b54ea43d1836d0f5b59a1457281a78d57cb1d2d6b2188b64d80082260
+
+    ASN1_FILES="$(get_asn1_files)"
+
+    # basic sanity check, avoid forbidden words
+    for f in ${ASN1_FILES}; do
+    "${ROOT}"/scripts/find_illegal_asn1_field_names.py "${f}" || echo "${f} FAILED"
+    done
+
+    # Nuke all files in generated/
+    rm -rf ${GENPATH}/*
+
+    docker run --user $(id -u ${USER}):$(id -g ${USER}) -v ${GENPATH}:/target -v ${ROOT}:/src -v ${ROOT}/scripts:/scripts ttsiodras/asn1scc bash -c "/scripts/run_in_docker.sh"
+
 }
 
 run_asn1 ()
@@ -201,7 +224,13 @@ process_generated ()
 }
 
 echo "Using ${0} to hand parsing of ASN.1 files over to asn1scc"
-run_asn1 "${1}"
+if [ "${1}" == "docker" ]; then
+    echo "Using asn1scc from docker image"
+    docker_run_asn1
+else
+    echo "Using locally installed asn1scc"
+    run_asn1 "${1}"
+fi
 echo "Using ${0} to modify generated code"
 process_generated
 

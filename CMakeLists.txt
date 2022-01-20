@@ -9,7 +9,7 @@ set (PROJECT_VERSION "1.0")
 set (PROJECT_SOVERSION "1")
 set (PROJECT_DESCRIPTION "i3ds ASN.1 bucket")
 
-option(BUILD_ASN1CC "Path to ASN.1 compiler" OFF)
+option(BUILD_ASN1CC "Either path to ASN.1 compiler, or the string 'docker' to use the docker version" OFF)
 option(BUILD_EMBEDDED "Build for embedded systems" OFF)
 option(BUILD_DEBUG "Debug-builds" ON)
 
