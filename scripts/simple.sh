@@ -28,4 +28,4 @@ make VERBOSE=1 -j8
 popd > /dev/null
 popd > /dev/null
 
-./scripts/gen_archive.sh
+${ROOT}/scripts/gen_archive.sh
