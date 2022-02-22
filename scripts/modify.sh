@@ -147,17 +147,7 @@ process_generated ()
 	# #ifdef  __cplusplus
 	# extern "C" {
 	# #endif
-
-	# Note, asn1crt.hpp is doing extra stuff in this block, so we
-	# need to inject namespace at a slightly different place
-    # FIXME: namespace is injected in the wrong place in asn1crt.hpp
-	if [[ ${hf} == "asn1crt.h" ]]; then
-	    #endif	/* __cplusplus */
-	    start=$(cat -n "${hf}" | grep -E "\#endif.*__cplusplus" | head -n1 | awk '{print $1}')
-	    start=$((start+1))
-	else
-	    start=$(cat -n "${hf}" | grep -1 -E "extern(\ )*\"C\"(\ )*\{" | head -n1 | awk '{print $1}')
-	fi
+	start=$(cat -n "${hf}" | grep -1 -E "extern(\ )*\"C\"(\ )*\{" | head -n1 | awk '{print $1}')
 	sed -i "${start}inamespace ${NAMESPACE} {" "${hf}"
 	# if we are in our own generated files, we drop __cplusplus stuff
 	if [[ ${ownfiles} == *${hf}* ]]; then
